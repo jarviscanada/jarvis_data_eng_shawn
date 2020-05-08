@@ -10,7 +10,8 @@ CREATE TABLE PUBLIC.host_info
 	L2_cache		INTEGER NOT NULL,
 	total_mem		REAL NOT NULL,
 	"timestamp"		TIMESTAMP default 'now',
-	CONSTRAINT host_info_pk PRIMARY KEY (id)
+	CONSTRAINT host_info_pk PRIMARY KEY (id),
+	CONSTRAINT host_info_un UNIQUE (hostname)
 );
 
 
@@ -19,11 +20,11 @@ CREATE TABLE PUBLIC.host_usage
 (
 	
 	"timestamp"	TIMESTAMP default 'now',
-	host_id		SERIAL NOT NULL,
+	host_id		INTEGER NOT NULL,
 	memory_free	INTEGER NOT NULL,
 	cpu_idle	INTEGER NOT NULL,
 	cpu_kernel	INTEGER NOT NULL,
 	disk_io 	INTEGER NOT NULL,
 	disk_available	INTEGER NOT NULL,
-	CONSTRAINT host_usage_info_fk FOREIGN KEY (host_id) REFERENCES host_info(id)
+	CONSTRAINT host_uasge_host_info_fk FOREIGN KEY (host_id) REFERENCES host_info(id)
 );

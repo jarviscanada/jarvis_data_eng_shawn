@@ -8,7 +8,6 @@ psql_host="$1"
 psql_port="$2"
 db_name="$3"
 psql_user="$4"
-psql_password="$5"
 
 #save hostname to a variable
 hostname=$(hostname -f)
@@ -31,6 +30,6 @@ total_mem=$(echo "$mem_info"  | egrep "Mem:" | awk '{print $2}' | sed 's/[^0-9]*
 timestamp=$(date +%F_%T)
 
 #Executing SQL from shell scripts
-psql -h $psql_host -U $psql_user -d $db_name -p $psql_port $psql_password << EOF
+psql -h $psql_host -U $psql_user -d $db_name -p $psql_port << EOF
 INSERT INTO host_info (hostname, cpu_number, cpu_architecture, cpu_model, cpu_mhz, l2_cache, total_mem, timestamp) VALUES ('$hostname', '$cpu_number', '$cpu_architecture', '$cpu_model', '$cpu_mhz', '$l2_cache', '$total_mem', '$timestamp');
 EOF
