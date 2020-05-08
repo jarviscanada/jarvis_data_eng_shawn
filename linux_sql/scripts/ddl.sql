@@ -9,7 +9,7 @@ CREATE TABLE PUBLIC.host_info
 	cpu_mhz			REAL NOT NULL,
 	L2_cache		INTEGER NOT NULL,
 	total_mem		REAL NOT NULL,
-	"timestamp"		TIMESTAMP default 'now',
+	timestamp		TIMESTAMP default now(),
 	CONSTRAINT host_info_pk PRIMARY KEY (id),
 	CONSTRAINT host_info_un UNIQUE (hostname)
 );
@@ -19,7 +19,7 @@ CREATE TABLE PUBLIC.host_info
 CREATE TABLE PUBLIC.host_usage
 (
 	
-	"timestamp"	TIMESTAMP default 'now',
+	timestamp	TIMESTAMP default now(),
 	host_id		INTEGER NOT NULL,
 	memory_free	INTEGER NOT NULL,
 	cpu_idle	INTEGER NOT NULL,
