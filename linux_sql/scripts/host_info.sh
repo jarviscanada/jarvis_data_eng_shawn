@@ -33,3 +33,6 @@ timestamp=$(date +%F_%T)
 psql -h $psql_host -U $psql_user -d $db_name -p $psql_port << EOF
 INSERT INTO host_info (hostname, cpu_number, cpu_architecture, cpu_model, cpu_mhz, l2_cache, total_mem, timestamp) VALUES ('$hostname', '$cpu_number', '$cpu_architecture', '$cpu_model', '$cpu_mhz', '$l2_cache', '$total_mem', '$timestamp');
 EOF
+
+#exit without error
+exit(0)
