@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 PGSQL_DATA_PATH='/var/lib/postgresql/data'
 CONTAINER="jrvs-psql"
 option="$1"
