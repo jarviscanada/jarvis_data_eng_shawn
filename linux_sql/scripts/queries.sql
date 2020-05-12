@@ -1,3 +1,10 @@
+SELECT cpu_number,id AS host_id,total_mem AS "total_mem(x100MB)"
+FROM host_info
+GROUP BY host_id
+ORDER BY cpu_number ASC;
+
+
+
 select t,idd,name,avg(usage)
 from (
 	SELECT date_trunc('minute',host_usage.timestamp) as t ,host_info.id as idd,host_info.hostname as name,(host_info.total_mem-memory_free)/host_info.total_mem as usage
