@@ -3,7 +3,7 @@ The Jarvis Linux Cluster Administration (LCA) team manages a Linux cluster of 10
 
 ## Architecture and Design
 1) The diagram of the project  
- ![Diagram.png](Diagram.png)  
+ ![Diagram.png](./assets/Diagram.png)  
  as shown in the diagram, the two clients connect toe the server via internet and each client has it's own bash scripts and collects their hardware information and cpu usage information, and then insert into the database in server which is in the postgresql instance.
 2) Describe tables:  
 the database contains two tables in postgresql instance. `host_info` and `host_usage`, `host_info` contains the hardware information of the system and `host_usage` contains the real time information of hte cpu usage and the memory usage.  
