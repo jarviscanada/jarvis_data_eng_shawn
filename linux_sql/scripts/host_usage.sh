@@ -9,7 +9,6 @@ psql_port="$2"
 db_name="$3"
 psql_user="$4"
 
-
 #save hostname to a variable
 hostname=$(hostname -f)
 
