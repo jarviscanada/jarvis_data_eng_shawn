@@ -14,7 +14,6 @@ CREATE TABLE PUBLIC.host_info
 	CONSTRAINT host_info_un UNIQUE (hostname)
 );
 
-
 --create TABLE PUBLIC.host_usage
 CREATE TABLE PUBLIC.host_usage
 (
