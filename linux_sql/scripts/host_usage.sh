@@ -30,4 +30,4 @@ psql -h $psql_host -U $psql_user -d $db_name -p $psql_port  << EOF
 INSERT INTO host_usage (host_id, memory_free, cpu_idle, cpu_kernel, disk_io, disk_available) VALUES ((SELECT id FROM host_info), '$memory_free', '$cpu_idle', '$cpu_kernel', '$disk_io', '$disk_available');
 EOF
 
-exit(0)
+exit $?
