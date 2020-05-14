@@ -1,5 +1,5 @@
 ## Introduction
-The Jarvis Linux Cluster Administration (LCA) team manages a Linux cluster of 10 nodes/servers which are running CentOS 7. The idea is  to monitor the system usage of the this nodes and server that helps the LCA team to meet their business needs. i need to implement the program using bash scripts and the PostgreSQL database in order to monitor the system hardware infomation and cpu resource, and also write SQL queries to answer some business need. this project helps the infrastructure team to get idea of the cpu usage and improve the system performance. 
+The Jarvis Linux Cluster Administration (LCA) team manages a Linux cluster of 10 nodes/servers which are running CentOS 7. The idea is to monitor the system usage of these nodes and server that helps the LCA team to meet their business needs. I need to implement the program using bash scripts and the PostgreSQL database to monitor the system hardware information and CPU resource, and also write SQL queries to answer some business need. this project helps the infrastructure team to get the idea of the CPU usage and improve the system performance. 
 
 ## Architecture and Design
 ### The diagram of the project  
