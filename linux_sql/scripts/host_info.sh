@@ -35,4 +35,4 @@ INSERT INTO host_info (hostname, cpu_number, cpu_architecture, cpu_model, cpu_mh
 EOF
 
 #exit without error
-exit(0)
+exit $?
