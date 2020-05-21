@@ -2,7 +2,13 @@ package ca.jrvs.apps.grep;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class JavaGreplambdaImp extends JavaGrepImp {
 
@@ -17,7 +23,7 @@ public class JavaGreplambdaImp extends JavaGrepImp {
       try {
         javaGreplambdaImp.process();
       }catch ( Exception e) {
-        e.printStackTrace();
+        javaGreplambdaImp.logger.error(e.getMessage(),e);
       }
     }
   }
@@ -28,7 +34,13 @@ public class JavaGreplambdaImp extends JavaGrepImp {
    */
   @Override
   public List<File> ListFiles(String rootDir) {
-    return super.ListFiles(rootDir);
+    List<File> files = new ArrayList<File>();
+    try{
+      Files.list(Paths.get(rootDir)).collect(Collectors.toList());
+    }catch (IOException e){
+      logger.error(e.getMessage(),e);
+    }
+    return files;
   }
 
   /**
@@ -42,7 +54,15 @@ public class JavaGreplambdaImp extends JavaGrepImp {
    */
   @Override
   public List<String> readLines(File inputFile) {
-    return super.readLines(inputFile);
+    if(!inputFile.isFile())
+      throw new IllegalArgumentException("not a file");
+    List<String> lines= new ArrayList<String>();
+    try{
+      lines=Files.lines(inputFile.toPath()).collect(Collectors.toList());
+    }catch(IOException e){
+      logger.error(e.getMessage(),e);
+    }
+    return lines;
   }
 
   /**
