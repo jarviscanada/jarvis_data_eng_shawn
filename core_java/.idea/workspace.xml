@@ -1,23 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2d825e4e-d107-4897-ab84-bf634aec1dc5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_postgresql_postgresql_42_2_5.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jdbc/src/main/java/ca/jrvs/apps/jdbc/Customer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jdbc/src/main/java/ca/jrvs/apps/jdbc/CustomerDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jdbc/src/main/java/ca/jrvs/apps/jdbc/DatabaseConnectionManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jdbc/src/main/java/ca/jrvs/apps/jdbc/DatabaseConnectionManger.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jdbc/src/main/java/ca/jrvs/apps/jdbc/JDBCExecuter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jdbc/src/main/java/ca/jrvs/apps/jdbc/Order.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jdbc/src/main/java/ca/jrvs/apps/jdbc/OrderDAO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jdbc/src/main/java/ca/jrvs/apps/jdbc/OrderLine.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jdbc/src/main/java/ca/jrvs/apps/jdbc/util/DataAccessObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jdbc/src/main/java/ca/jrvs/apps/jdbc/util/DataTransferObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/grep/target/classes/ca/jrvs/apps/grep/JavaGreplambdaImp.class" beforeDir="false" afterPath="$PROJECT_DIR$/grep/target/classes/ca/jrvs/apps/grep/JavaGreplambdaImp.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jdbc/jdbc.iml" beforeDir="false" afterPath="$PROJECT_DIR$/jdbc/jdbc.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jdbc/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/jdbc/pom.xml" afterDir="false" />
-    </list>
+    <list default="true" id="2d825e4e-d107-4897-ab84-bf634aec1dc5" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
