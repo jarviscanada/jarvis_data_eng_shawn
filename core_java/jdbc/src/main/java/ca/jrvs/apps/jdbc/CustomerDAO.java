@@ -11,11 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CustomerDAO extends DataAccessObject<Customer> {
+
   private final Logger logger = LoggerFactory.getLogger(CustomerDAO.class);
-  private static final String INSERT ="INSERT INTO customer(first_name, last_name,"
+  private static final String INSERT = "INSERT INTO customer(first_name, last_name,"
       + "email,phone,address,city,state,zipcode) VALUES (?,?,?,?,?,?,?,?)";
 
-  private static final String GET_ONE ="SELECT customer_id, first_name, last_name,"
+  private static final String GET_ONE = "SELECT customer_id, first_name, last_name,"
       + "email,phone,address,city,state,zipcode FROM customer WHERE customer_id=?";
 
   private static final String UPDATE = "UPDATE customer SET first_name=?, last_name=?, email=?, "
@@ -23,11 +24,13 @@ public class CustomerDAO extends DataAccessObject<Customer> {
 
   private static final String DELETE = "DELETE FROM customer WHERE customer_id=?";
 
-  private static final String GET_ALL_LMT = "SELECT customer_id, first_name, last_name, email, phone, " +
-      "address, city, state, zipcode FROM customer ORDER BY last_name, first_name LIMIT ?";
+  private static final String GET_ALL_LMT =
+      "SELECT customer_id, first_name, last_name, email, phone, " +
+          "address, city, state, zipcode FROM customer ORDER BY last_name, first_name LIMIT ?";
 
-  private static final String GET_ALL_PAGED = "SELECT customer_id, first_name, last_name, email, phone, " +
-      "address, city, state, zipcode FROM customer ORDER BY last_name, first_name LIMIT ? OFFSET ?";
+  private static final String GET_ALL_PAGED =
+      "SELECT customer_id, first_name, last_name, email, phone, " +
+          "address, city, state, zipcode FROM customer ORDER BY last_name, first_name LIMIT ? OFFSET ?";
 
   public CustomerDAO(Connection connection) {
     super(connection);
@@ -36,8 +39,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
   @Override
   public Customer findById(long id) {
     Customer customer = new Customer();
-    try(PreparedStatement statement= this.connection.prepareStatement(GET_ONE);){
-      statement.setLong(1,id);
+    try (PreparedStatement statement = this.connection.prepareStatement(GET_ONE);) {
+      statement.setLong(1, id);
       ResultSet rs = statement.executeQuery();
       while (rs.next()) {
         customer.setId(rs.getLong("customer_id"));
@@ -51,8 +54,8 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         customer.setZipCode(rs.getString("zipcode"));
       }
       return customer;
-    }catch (SQLException e){
-      logger.error(e.getMessage(),e);
+    } catch (SQLException e) {
+      logger.error(e.getMessage(), e);
       throw new RuntimeException();
     }
   }
@@ -65,9 +68,9 @@ public class CustomerDAO extends DataAccessObject<Customer> {
   @Override
   public Customer update(Customer dto) {
     Customer customer = null;
-    try{
+    try {
       this.connection.setAutoCommit(false);
-    }catch (SQLException e){
+    } catch (SQLException e) {
       //e.printStackTrace();
       throw new RuntimeException(e);
     }
@@ -87,7 +90,7 @@ public class CustomerDAO extends DataAccessObject<Customer> {
     } catch (SQLException e) {
       try {
         this.connection.rollback();
-      }catch (SQLException sqle){
+      } catch (SQLException sqle) {
         //sqle.printStackTrace();
         throw new RuntimeException(sqle);
       }
@@ -100,14 +103,14 @@ public class CustomerDAO extends DataAccessObject<Customer> {
   @Override
   public Customer create(Customer dto) {
     try (PreparedStatement statement = this.connection.prepareStatement(INSERT);) {
-      statement.setString(1,dto.getFirstName());
-      statement.setString(2,dto.getLastName());
-      statement.setString(3,dto.getEmail());
-      statement.setString(4,dto.getPhone());
-      statement.setString(5,dto.getAddress());
-      statement.setString(6,dto.getCity());
-      statement.setString(7,dto.getState());
-      statement.setString(8,dto.getZipCode());
+      statement.setString(1, dto.getFirstName());
+      statement.setString(2, dto.getLastName());
+      statement.setString(3, dto.getEmail());
+      statement.setString(4, dto.getPhone());
+      statement.setString(5, dto.getAddress());
+      statement.setString(6, dto.getCity());
+      statement.setString(7, dto.getState());
+      statement.setString(8, dto.getZipCode());
       statement.execute();
       int id = this.getLastVal(CUSTOMER_SEQUENCE);
       return this.findById(id);
@@ -119,21 +122,21 @@ public class CustomerDAO extends DataAccessObject<Customer> {
 
   @Override
   public void delete(long id) {
-    try(PreparedStatement statement= this.connection.prepareStatement(DELETE);) {
+    try (PreparedStatement statement = this.connection.prepareStatement(DELETE);) {
       statement.setLong(1, id);
       statement.execute();
-    }catch (SQLException e){
-      logger.error(e.getMessage(),e);
+    } catch (SQLException e) {
+      logger.error(e.getMessage(), e);
       throw new RuntimeException(e);
     }
   }
 
-  public List<Customer> findAllSorted(int limit){
+  public List<Customer> findAllSorted(int limit) {
     List<Customer> customers = new ArrayList<>();
-    try(PreparedStatement statement = this.connection.prepareStatement(GET_ALL_LMT);){
+    try (PreparedStatement statement = this.connection.prepareStatement(GET_ALL_LMT);) {
       statement.setInt(1, limit);
       ResultSet rs = statement.executeQuery();
-      while(rs.next()){
+      while (rs.next()) {
         Customer customer = new Customer();
         customer.setId(rs.getLong("customer_id"));
         customer.setFirstName(rs.getString("first_name"));
@@ -146,24 +149,24 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         customer.setZipCode(rs.getString("zipcode"));
         customers.add(customer);
       }
-    }catch(SQLException e){
-      logger.error(e.getMessage(),e);
+    } catch (SQLException e) {
+      logger.error(e.getMessage(), e);
       throw new RuntimeException(e);
     }
     return customers;
   }
 
-  public List<Customer> findAllPaged(int limit, int pageNumber){
+  public List<Customer> findAllPaged(int limit, int pageNumber) {
     List<Customer> customers = new ArrayList<>();
-    int offset = ((pageNumber-1) * limit);
-    try(PreparedStatement statement = this.connection.prepareStatement(GET_ALL_PAGED);){
-      if(limit<1){
-        limit=10;
+    int offset = ((pageNumber - 1) * limit);
+    try (PreparedStatement statement = this.connection.prepareStatement(GET_ALL_PAGED);) {
+      if (limit < 1) {
+        limit = 10;
       }
       statement.setInt(1, limit);
       statement.setInt(2, offset);
       ResultSet rs = statement.executeQuery();
-      while(rs.next()){
+      while (rs.next()) {
         Customer customer = new Customer();
         customer.setId(rs.getLong("customer_id"));
         customer.setFirstName(rs.getString("first_name"));
@@ -176,7 +179,7 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         customer.setZipCode(rs.getString("zipcode"));
         customers.add(customer);
       }
-    }catch(SQLException e){
+    } catch (SQLException e) {
       e.printStackTrace();
       throw new RuntimeException(e);
     }

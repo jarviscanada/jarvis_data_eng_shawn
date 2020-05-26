@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.util.List;
 
 public class Order implements DataTransferObject {
+
   private long id;
   private String customerFirstName;
   private String customerLastName;
@@ -17,7 +18,6 @@ public class Order implements DataTransferObject {
   private String salepersonLastName;
   private String salepersonEmail;
   private List<OrderLine> orderLines;
-
 
 
   public long getId() {

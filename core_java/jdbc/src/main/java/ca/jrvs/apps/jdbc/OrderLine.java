@@ -3,6 +3,7 @@ package ca.jrvs.apps.jdbc;
 import java.math.BigDecimal;
 
 public class OrderLine {
+
   private int quantity;
   private String productCode;
   private String productName;

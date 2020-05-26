@@ -1,12 +1,7 @@
 package ca.jrvs.apps.jdbc;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
 import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,12 +10,13 @@ import org.slf4j.LoggerFactory;
 public class JDBCExecuter {
 
   private static final Logger logger = LoggerFactory.getLogger(JDBCExecuter.class);
+
   public static void main(String[] args) {
     JDBCExecuter jdbcExecutor = new JDBCExecuter();
     BasicConfigurator.configure();
     DatabaseConnectionManager dcm = new DatabaseConnectionManager("localhost",
-        "hplussport","postgres","password");
-    try{
+        "hplussport", "postgres", "password");
+    try {
       Connection connection = dcm.getConnection();
       CustomerDAO customerDAO = new CustomerDAO(connection);
       /*Customer customer = customerDAO.findById(10000);
@@ -65,12 +61,12 @@ public class JDBCExecuter {
 
       customerDAO.findAllSorted(20).forEach(System.out::println);
       System.out.println("Paged");
-      for(int i=1;i<3;i++){
+      for (int i = 1; i < 3; i++) {
         System.out.println("Page number: " + i);
         customerDAO.findAllPaged(10, i).forEach(System.out::println);
       }
-    }catch (SQLException e){
-      logger.error(e.getMessage(),e);
+    } catch (SQLException e) {
+      logger.error(e.getMessage(), e);
     }
   }
 }
