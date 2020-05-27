@@ -7,7 +7,7 @@ Also, get ideas about the ACID terminology by handling SQL exceptions as well as
 
 # ER Diagram
 Below is the ER diagram of the database for this Project:
-![ER Diagram of the underlying database](assets/ERD.jpg)
+![ER Diagram of the underlying database](assets/ERDiagram.jpg)
 
 # Design Patterns
 Discuss DAO and Repository design patterns (150-200 words)
