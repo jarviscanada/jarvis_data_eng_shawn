@@ -11,7 +11,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import java.util.Arrays;
 
-public class twiterApiTest {
+public class TwitterApiTest {
   private static String CONSUMER_KEY = System.getenv("consumerKey");
   private static String CONSUMER_SECRET = System.getenv("consumerSecret");
   private static String ACCESS_TOKEN = System.getenv("accessToken");
@@ -24,10 +24,9 @@ public class twiterApiTest {
     consumer.setTokenWithSecret(ACCESS_TOKEN,TOKEN_SECRET);
 
     //create http get request
-    String status = "today is a good day???";
+    String status = "hello???";
     PercentEscaper percentEscaper = new PercentEscaper("",false);
-    HttpPost request = new HttpPost("http://api.twitter.com/1.1/statuses/update."
-        + "json?status=" + percentEscaper.escape(status));
+    HttpPost request = new HttpPost("http://api.twitter.com/1.1/statuses/update.json?status=" + percentEscaper.escape(status));
 
     //sign the request
     consumer.sign(request);
@@ -41,4 +40,5 @@ public class twiterApiTest {
   }
 
 }
+
 
