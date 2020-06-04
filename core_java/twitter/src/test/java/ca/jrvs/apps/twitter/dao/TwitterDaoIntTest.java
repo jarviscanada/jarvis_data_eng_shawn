@@ -3,82 +3,85 @@ package ca.jrvs.apps.twitter.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
 import ca.jrvs.apps.twitter.dao.helper.HttpHelper;
 import ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelper;
 import ca.jrvs.apps.twitter.model.Tweet;
-import ca.jrvs.apps.twitter.util.JsonParser;
+import ca.jrvs.apps.twitter.model.Coordinates;
+import ca.jrvs.apps.twitter.util.JsonUtil;
 import ca.jrvs.apps.twitter.util.TweetUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TwitterDaoIntTest {
 
-  private TwitterDao dao;
+  private static TwitterDao dao;
+  private Tweet tweet;
+  private String tweetId;
+
+  @BeforeClass
+  public static void setup() {
+    String CONSUMER_KEY = System.getenv("CONSUMER_KEY");
+    String CONSUMER_SECRET = System.getenv("CONSUMER_SECRET");
+    String ACCESS_TOKEN = System.getenv("ACCESS_TOKEN");
+    String TOKEN_SECRET = System.getenv("TOKEN_SECRET");
+    HttpHelper httpHelper = new TwitterHttpHelper(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN,
+        TOKEN_SECRET);
+    dao = new TwitterDao(httpHelper);
+  }
 
   @Before
-  public void setUp() {
-    String CONSUMER_KEY = System.getenv("consumerKey");
-    String CONSUMER_SECRET = System.getenv("consumerSecret");
-    String ACCESS_TOKEN = System.getenv("accessToken");
-    String TOKEN_SECRET = System.getenv("tokenSecret");
-
-    //setup dependency
-    HttpHelper twitterHttpHelper = new TwitterHttpHelper(CONSUMER_KEY, CONSUMER_SECRET,
-        ACCESS_TOKEN, TOKEN_SECRET);
-    //pass dependency
-    dao = new TwitterDao(twitterHttpHelper);
+  public void create() {
+    System.out.println("Create");
+    String hashTag = "#abc";
+    String text =
+        "text" + hashTag + "" + System.currentTimeMillis();
+    double lat = 10.0;
+    double lon = 1;
+    Tweet postTweet = TweetUtil.buildTweet(text, lon, lat);
+    try {
+      System.out.println(JsonUtil.toJson(postTweet, true, true));
+    } catch (JsonProcessingException e) {
+      System.out.println("no jason"+e);
+    }
+    tweet = dao.create(postTweet);
+    assertEquals(text, tweet.getText());
+    assertNotNull(tweet.getCoordinates());
+    assertEquals(2, tweet.getCoordinates().getCoordinates().length);
+    assertEquals(lon, tweet.getCoordinates().getCoordinates()[0], 0);
+    assertEquals(lat, tweet.getCoordinates().getCoordinates()[1], 0);
+    assertTrue(hashTag.contains(tweet.getEntities().getHashtags()[0].getText()));
+    tweetId = tweet.getIdStr();
   }
 
   @Test
-  public void createPost() throws Exception {
-    String hashtag = "#abc";
-    Tweet actualTweet = TweetUtil.createTweet();
-    System.out.println(JsonParser.toJson(actualTweet, true, false));
+  public void find() throws Exception {
+    System.out.println("find");
+    Tweet foundTweet = dao.findById(tweetId);
+    System.out.println(JsonUtil.toJson(foundTweet, true, false));
+    assertEquals(tweet.getText(), foundTweet.getText());
+    assertEquals(foundTweet.getCoordinates().getCoordinates()[0],
+        tweet.getCoordinates().getCoordinates()[0], 0.001);
+    assertEquals(foundTweet.getCoordinates().getCoordinates()[1],
+        tweet.getCoordinates().getCoordinates()[1], 0.001);
+    assertEquals(tweetId, foundTweet.getIdStr());
 
-    Tweet tweet = dao.create(actualTweet);
-
-    assertEquals(actualTweet.getText(), tweet.getText());
-    assertNotNull(tweet.getCoordinates());
-    assertEquals(2, tweet.getCoordinates().getLongLat().length);
-    assertEquals(10.0, tweet.getCoordinates().getLongLat()[0]);
-    assertEquals(-1.0, tweet.getCoordinates().getLongLat()[1]);
-    assertTrue(hashtag.contains(tweet.getEntities().getHashtags().get(0).getText()));
-    System.out.println(JsonParser.toJson(tweet, true, false));
   }
 
-  @Test
-  public void findPost() throws JsonProcessingException {
-    String hashtag = "#abc";
-    Tweet postTweet = TweetUtil.createTweet();
-    System.out.println(JsonParser.toJson(postTweet, true, false));
-    Tweet postedTweet = dao.create(postTweet);
-    String id = postedTweet.getIdString();
+  @After
+  public void delete() throws Exception {
+    System.out.println("delete");
+    Tweet deletedTweet = dao.deleteById(tweetId);
+    System.out.println(JsonUtil.toJson(deletedTweet, true, false));
+    assertEquals(tweet.getText(), deletedTweet.getText());
+    assertEquals(deletedTweet.getCoordinates().getCoordinates()[0],
+        tweet.getCoordinates().getCoordinates()[0], 0.001);
+    assertEquals(deletedTweet.getCoordinates().getCoordinates()[1],
+        tweet.getCoordinates().getCoordinates()[1], 0.001);
+    assertEquals(tweetId, deletedTweet.getIdStr());
 
-    Tweet tweet = dao.findById(id);
-
-    assertEquals(postTweet.getText(), tweet.getText());
-    assertNotNull(tweet.getCoordinates());
-    assertEquals(2, tweet.getCoordinates().getLongLat().length);
-    assertEquals(10.0, tweet.getCoordinates().getLongLat()[0]);
-    assertEquals(-1.0, tweet.getCoordinates().getLongLat()[1]);
-    assertTrue(hashtag.contains(tweet.getEntities().getHashtags().get(0).getText()));
-  }
-
-  @Test
-  public void deletePost() {
-    String hashtag = "#abc";
-    Tweet postTweet = TweetUtil.createTweet();
-    Tweet postedTweet = dao.create(postTweet);
-    String id = postedTweet.getIdString();
-
-    Tweet tweet = dao.deleteById(id);
-
-    assertEquals(postTweet.getText(), tweet.getText());
-    assertNotNull(tweet.getCoordinates());
-    assertEquals(2, tweet.getCoordinates().getLongLat().length);
-    assertEquals(10.0, tweet.getCoordinates().getLongLat()[0]);
-    assertEquals(-1.0, tweet.getCoordinates().getLongLat()[1]);
-    assertTrue(hashtag.contains(tweet.getEntities().getHashtags().get(0).getText()));
   }
 }
