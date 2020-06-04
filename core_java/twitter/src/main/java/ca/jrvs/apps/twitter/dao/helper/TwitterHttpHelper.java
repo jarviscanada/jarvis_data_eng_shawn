@@ -28,10 +28,10 @@ public class TwitterHttpHelper implements HttpHelper {
   }
 
   public TwitterHttpHelper() {
-    String consumerKey = System.getenv("consumerKey ");
-    String consumerSecret = System.getenv("consumerSecret");
-    String accessToken = System.getenv("accessToken ");
-    String tokenSecret = System.getenv("tokenSecret");
+    String consumerKey = System.getenv("CONSUMER_KEY");
+    String consumerSecret = System.getenv("CONSUMER_SECRET");
+    String accessToken = System.getenv("ACCESS_TOKEN");
+    String tokenSecret = System.getenv("TOKEN_SECRET");
 
     consumer = new CommonsHttpOAuthConsumer(consumerKey, consumerSecret);
     consumer.setTokenWithSecret(accessToken, tokenSecret);
