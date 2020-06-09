@@ -81,7 +81,7 @@ Twitter's Tweet object:
 5. UserMention 
 
 ## Improvements 
-1. In our application, we are particularly just trying to get the tweet by id. However, we can extend the functionality by getting the information/tweet by other parameters as it will let user to be flexible in retrieving the tweets in much broader way.
-2.  Adding more options/properties in the tweet object like friend_count, contributers_enables will allow user to use more functionalities of this application.
-3. Different media except text can be posted to extend the application.
+1. In this application, the only way to search the perticular tweetis by getting the tweet id. However, the functionality canbe extended by searching the tweet detail by its location or the hashtag. the greap API can be implemented into this tweet APP. Thus, this application can let user to be flexible in retrieving the tweets in much broader way.
+2.  Adding more options/properties in the tweet object like friend_count, friends_mentioned will allow user to originze their twitter much easily.
+3. Different media except text can be posted to extend the application such as pictures, files etc.
 
