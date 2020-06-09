@@ -35,7 +35,7 @@ mvn package
 
 1.the following commandis used for running the TwitterCLI application to post/show/delete tweets:
 ```bash
-java -jar post|show|delete [option(s)]
+java post|show|delete [option(s)]
 ```
 2.Structure of post, show and delete commands:
 ```bash
