@@ -10,4 +10,9 @@ Below is the ER diagram of the database for this Project:
 ![ER Diagram of the underlying database](assets/ERDiagram.jpg)
 
 # Design Patterns
-Discuss DAO and Repository design patterns (150-200 words)
+The difference between DAO and Repository design pattern
+## DAO (Data Access Object)
+DAO provides abstraction on database/data files or any other persistence mechanism so that, persistence layer could be manipulated without knowing its implementation details. DAO involves more complex queries since there is involvement is multiple tables. We can say, DAO is an abstraction of data persistence.
+
+## Repository Pattern
+This pattern does't involve complex quesries, rather it foccus to use simple ones.  Here, unloke DAO, repository pattern works typically on single table or DTO by acting as an abstraction betweeen various colletion of objects.
