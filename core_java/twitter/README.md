@@ -16,10 +16,33 @@ The class diagram of TwitterCLI application is shown below:
 
 ## Quick Start
 **Build package for TwitterCLI app**
-  * First set up the environment variables for OAuth and package the project through Maven. 
-  * To build the project, run `maven package` in command line window inside the twitter directory that will download all the dependencies from `pom.xml`.
-  * Lastly, to run the app, `java -jar target/java_apps-1.0-SNAPSHOT.jar post|show|delete [option(s)]` in the command window as shown below.
+ 1.Use the following commands to setup Twitter OAuth 1.0 authentication keys and secrets (consumer 
+key, consumer secret, access token, token secret) as environment variables so they can be used by 
+the TwitterCLI application to sign the HTTP requests made to Twitter REST API. Replace the "XXXXX"s 
+with the respective values  of the Twitter Developer account.
+```bash
+export consumerKey=XXXXX
+export consumerSecret=XXXXX
+export accessToken=XXXXX
+export tokenSecret=XXXXX
+```
+2.Use the following command to build the package while in the twitter/ directory:
+``` bash
+mvn package
+```
  
+ **Run TwitterCLI Application**
+
+1.Use the following command to run the TwitterCLI application to post/show/delete tweets:
+```bash
+java -jar target/java_apps-1.0-SNAPSHOT.jar post|show|delete [option(s)]
+```
+2.Structure of post, show and delete commands:
+```bash
+java -jar target/java_apps-1.0-SNAPSHOT.jar post <TweetTextToBePosted> <Longitude:Latitude>
+java -jar target/java_apps-1.0-SNAPSHOT.jar show <TweetID>
+java -jar target/java_apps-1.0-SNAPSHOT.jar delete <CommaSeparatedListOfTweetIDs> 
+```  
  #### Usage
  
 * Post a Tweet
