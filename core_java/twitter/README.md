@@ -72,8 +72,13 @@ Models are implemented with POJOs which is a class with private member variables
   "retweeted" : false
 	} 
 ```
-Tweet model contains the following properties that are required in posting, showing or deleting the data consumed from our Twitter App.
-However, if we look upon the real tweet model which is used by Twitter API, is really complex consisting alot many field and properties. 
+The Model of TwitterCLI application is implemented using five POJOs all of which help in representing a simplified version of 
+Twitter's Tweet object:
+1. Tweet
+2. Coordinates
+3. Entities
+4. Hashtag
+5. UserMention 
 
 ## Improvements 
 1. In our application, we are particularly just trying to get the tweet by id. However, we can extend the functionality by getting the information/tweet by other parameters as it will let user to be flexible in retrieving the tweets in much broader way.
