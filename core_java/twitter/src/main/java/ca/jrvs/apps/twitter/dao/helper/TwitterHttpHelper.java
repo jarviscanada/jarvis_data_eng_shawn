@@ -2,6 +2,7 @@ package ca.jrvs.apps.twitter.dao.helper;
 
 import java.io.IOException;
 import java.net.URI;
+import javax.annotation.PostConstruct;
 import oauth.signpost.OAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.exception.OAuthException;
@@ -11,14 +12,16 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
-@Component
+@org.springframework.stereotype.Component
 public class TwitterHttpHelper implements HttpHelper {
 
   private OAuthConsumer consumer;
   private HttpClient httpClient;
+
 
   public TwitterHttpHelper(String consumerKey, String consumerSecret, String accessToken,
       String tokenSecret) {
@@ -26,6 +29,7 @@ public class TwitterHttpHelper implements HttpHelper {
     consumer.setTokenWithSecret(accessToken, tokenSecret);
     httpClient = new DefaultHttpClient();
   }
+
 
   public TwitterHttpHelper() {
     String consumerKey = System.getenv("CONSUMER_KEY");

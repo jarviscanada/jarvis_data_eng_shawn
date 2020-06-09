@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelperTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.144 s <<< FAILURE! - in ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelperTest
+httpPost(ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelperTest)  Time elapsed: 0.132 s  <<< ERROR!
+java.lang.RuntimeException: Failed to execute httpPost
+	at ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelperTest.httpPost(TwitterHttpHelperTest.java:38)
+Caused by: oauth.signpost.exception.OAuthExpectationFailedException: consumer key not set
+	at ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelperTest.httpPost(TwitterHttpHelperTest.java:38)
+
+httpGet(ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelperTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.RuntimeException: Failed to execute httpPost
+	at ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelperTest.httpGet(TwitterHttpHelperTest.java:45)
+Caused by: oauth.signpost.exception.OAuthExpectationFailedException: consumer key not set
+	at ca.jrvs.apps.twitter.dao.helper.TwitterHttpHelperTest.httpGet(TwitterHttpHelperTest.java:45)
+

@@ -12,7 +12,7 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository
+@org.springframework.stereotype.Repository
 public class TwitterDao implements CrdDao<Tweet, String> {
 
   //URI contraints
@@ -29,7 +29,7 @@ public class TwitterDao implements CrdDao<Tweet, String> {
   //dependency
   private HttpHelper httpHelper;
 
-  //@Autowired
+  @Autowired
   public TwitterDao(HttpHelper httpHelper) {
     this.httpHelper = httpHelper;
   }
