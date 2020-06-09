@@ -15,7 +15,7 @@ The class diagram of TwitterCLI application is shown below:
 5) TwitterCLIApp : TwitterCLIApp is used to take inputs from the command line and invoke methods imlpemented in TwitterController.
 
 ## Quick Start
-**Build package for TwitterCLI app**
+**Build package for TwitterCLI app**  
  1.Use the following commands to setup Twitter OAuth 1.0 authentication keys and secrets (consumer 
 key, consumer secret, access token, token secret) as environment variables so they can be used by 
 the TwitterCLI application to sign the HTTP requests made to Twitter REST API. Replace the "XXXXX"s 
