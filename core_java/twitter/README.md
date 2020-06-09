@@ -16,37 +16,37 @@ The class diagram of TwitterCLI application is shown below:
 
 ## Quick Start
 **Build package for TwitterCLI app**  
- 1.Use the following commands to setup Twitter OAuth 1.0 authentication keys and secrets (consumer 
+ 1.the following commands is used for setting up the Twitter OAuth 1.0 authentication keys and secrets (consumer 
 key, consumer secret, access token, token secret) as environment variables so they can be used by 
-the TwitterCLI application to sign the HTTP requests made to Twitter REST API. Replace the "XXXXX"s 
-with the respective values  of the Twitter Developer account.
+the TwitterCLI application to sign the HTTP requests to Twitter REST API. import the authentication keys and secrets
+with the respective values of the Twitter Developer account.
 ```bash
 export consumerKey=XXXXX
 export consumerSecret=XXXXX
 export accessToken=XXXXX
 export tokenSecret=XXXXX
 ```
-2.Use the following command to build the package while in the twitter/ directory:
+2.the following command is used for build the maven dependency while in the twitter/ directory:
 ``` bash
 mvn package
 ```
  
  **Run TwitterCLI Application**
 
-1.Use the following command to run the TwitterCLI application to post/show/delete tweets:
+1.the following commandis used for running the TwitterCLI application to post/show/delete tweets:
 ```bash
-java -jar target/java_apps-1.0-SNAPSHOT.jar post|show|delete [option(s)]
+java -jar post|show|delete [option(s)]
 ```
 2.Structure of post, show and delete commands:
 ```bash
-java -jar target/java_apps-1.0-SNAPSHOT.jar post <TweetTextToBePosted> <Longitude:Latitude>
-java -jar target/java_apps-1.0-SNAPSHOT.jar show <TweetID>
-java -jar target/java_apps-1.0-SNAPSHOT.jar delete <CommaSeparatedListOfTweetIDs> 
+java post <TweetTextToBePosted> <Longitude:Latitude>
+java show <TweetID>
+java delete <ListOfTweetIDs> 
 ```  
  #### Usage
  
 * Post a Tweet
-`twitterCLIApp post "sample text" "Longitude:Latitude"`
+`twitterCLIApp post "some text" "Longitude:Latitude"`
 
 * Show a Tweet
 `twitterCLIApp show "id"`
@@ -60,7 +60,7 @@ Models are implemented with POJOs which is a class with private member variables
 ```{
   "created_at" : "Thu May 28 20:11:33 +0000 2020",
   "id_str" : "1200145224103841792",
-  "text" : "test post",
+  "text" : "test tweet",
   "entities" : {
     "hashtags" : [ ],
     "user_mentions" : [ ]
