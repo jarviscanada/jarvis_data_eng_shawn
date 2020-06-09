@@ -92,8 +92,7 @@ public class CustomerDAO extends DataAccessObject<Customer> {
         throw new RuntimeException(sqle);
       }
       //e.printStackTrace();
-      logger.error(e.getMessage(),e);
-      throw new RuntimeException(e);
+      throw new RuntimeException();
     }
     return customer;
   }
