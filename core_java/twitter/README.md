@@ -6,7 +6,7 @@ Building this application involves the conecpts of the basics of Rest APIs, Spri
  the integration testing using JUnit4 and the Mockito framework.  
 ## Design
 The class diagram of TwitterCLI application is shown below:  
-![Twitter UML](./assets/twitter.png)
+![Twitter UML](./assets/twitter.jpeg)
 
 1) TwitterHttpHelper : HttpHelper builds connection between Twitter API and Java application. It executes HTTP with given URI and authorizes the HTTP request. 
 2) TwitterDAO : TwitterDAO is used to construct  URIs from the tweet object and invokes Twitter HTTP Helper. It implements three methods create, findById and deleteById
