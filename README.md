@@ -6,7 +6,7 @@ After I graduate, I Choose to move my career path more towards the software side
 I am passionate about learning new stuff as well as applying new skills.
 Over the last year, I have self-taught myself computer science data structures and algorithms and I have done several projects that related to programming.
 Throughout my education and my varied project experiences, I am starting to build up a wide knowledge base and learning how to quickly adapt to new concepts, which I believe makes me invulnerable in the Data Engineering industry.
-For leisure time, I like to play competitive video gaming with friends which can make me energize and improve my instance reaction.
+For leisure time, I like to play competitive video games with friends which can make me feel energize and improve my ability of instance reaction.
 Overall, I am excited to pursue a career as a data engineering and further develop my skill sets.
 
 ## Technical Acumen
