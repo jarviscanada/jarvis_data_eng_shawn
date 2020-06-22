@@ -1,21 +1,23 @@
 
-# Xinyu Wang . Jarvis Consulting
-Driven and analytical professional with a bachelor's level education in electrical engineering from Carleton University.
-Apply engineering expertise to projects on devices and product development, programming and software design, and electronic manufacturing. 
-Collaborate on teams to manage multifaceted projects and synthesize complex concepts into engineering solutions. 
-Demonstrate proven ability to apply engineering skills to a wide range of electrical and software engineering projects. 
+
+# Shawn(Xinyu) Wang . Jarvis Consulting
+I recently graduated from Carleton University with a Bachelor's Degree in Electrical Engineering. 
+After I graduate, I Choose to move my career path more towards the software side.
+I am passionate about learning new stuff as well as applying new skills.
+Over the last year, I have self-taught myself computer science data structures and algorithms and I have done several projects that related to programming.
+Throughout my education and my varied project experiences, I am starting to build up a wide knowledge base and learning how to quickly adapt to new concepts, which I believe makes me invulnerable in the Data Engineering industry.
+For leisure time, I like to play competitive video gaming with friends which can make me energize and improve my instance reaction.
+Overall, I am excited to pursue a career as a data engineering and further develop my skill sets.
 
 ## Technical Acumen
 
-**Proficient:** Java, Bash, SQL, Agile/Scrum, C,
+**Proficient:** Java, Linux/Bash, RDBMS/SQL, Agile/Scrum, C, Git
 
-**Competent:** MATLAB, Python, Embedded System, C++, Junit, Lambda/Stream API, Mockito, Spring Framework
+**Competent:** Springboot, Mockito, Java Lambda & Stream APIs, Junit, Python, C++. MATLAB, Embedded System
 
-**Familiar:** Google Cloud Platform, Git, Tensorflow
+**Familiar:** Google Cloud Platform, Tensorflow, 
 
-**Hardware Design Tool:**  Cadence, ADS, HFSS, Simulink
-
-## Development Projects in Jarvis
+## Development Projects
 
 Project source code: [https://github.com/jarviscanada/jarvis_data_eng_shawn](https://github.com/jarviscanada/jarvis_data_eng_shawn)
 
@@ -35,25 +37,28 @@ delete posts on Twitter using Twitter Rest API. Implemented four versions of the
 version, Spring Beans version, Spring Component Scan version, and Springboot version. Wrote Unit Tests and
 Integration Tests for the applications using JUnit4 and Mockito.
                                      
-- **[SpringBoot App](./springboot)**:  
+- **[SpringBoot App](./springboot)**: *[in-progress]*  
   * Implemented Java8 and Springboot based REST API of a trading platform that uses IEX Cloud
 as a data source and PostgreSQL to persist data. Used a three-tier microservice architecture to implement it. Made
 use of Spring DAO to handle data access in PostgreSQL. Wrote unit and integration test using JUnit4 and Mockito.
-Dockerized the application.   *in-progress*
+Dockerized the application.  
                                       
-- **[Cloud & DevOps](./cloud_devops)**: Not started
-- **[Hadoop](./hadoop)**: Not started
-- **[Spark/Scala](./spark)**:  Not started
+- **[Cloud & DevOps](./cloud_devops)**: *[Not started]*
+- **[Hadoop](./hadoop)**: *[Not started]*
+- **[Spark/Scala](./spark)**:  *[Not started]*
 
 ## Professional Experiences
 
-**Software Developer,  Jarvis, Toronto (2020-Present):**    
-Working on big data technologies based projects which include Java, Hadoop, Spark, Cloud, and DevOps. 
-Responsible for performing the duties of the team lead in Agile-based team projects to aid scrum master in conducting scrum ceremonies.
+**Associate Data Engineer, Jarvis, Toronto (2020-Present):** Acquired the technical skills required for a Junior data engineer. Adapted to an agile working environment and agile software development to ensure team cohesion, collaboration, and overall success.
+Worked on big data projects which involves the latest technologies, such as Java, Spring, Cloud platforms, Hadoop, Spark, Linux, Postgresql, etc.
 
 **Coop, Zhejiang Lida Modern Textile Company, China (2019-2019):**   
-Designed and created a quality assurance system for a factory to enable accurate detection of defects, using real-time object detection through Open CV and deep learning. 
-Utilized machine learning framework TensorFlow to create computer vision and neural networks.
+Designed and created a quality assurance system for a factory to enable accurate detection of defects, using real-time object detection through Open CV and deep learning based on Linux system. 
+Utilized machine learning framework and TensorFlow to create computer vision and neural networks using camera.
+
+## Education
+
+**Carleton University (2014-2019)**, Bachelor of Engineering, Electrical Engineering
 
 ## Other Projects
 
