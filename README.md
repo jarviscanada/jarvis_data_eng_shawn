@@ -49,7 +49,8 @@ Dockerized the application.
 
 ## Professional Experiences
 
-**Associate Data Engineer, Jarvis, Toronto (2020-Present):** Acquired the technical skills required for a Junior data engineer. Adapted to an agile working environment and agile software development to ensure team cohesion, collaboration, and overall success.
+**Associate Data Engineer, Jarvis, Toronto (2020-Present):**  
+Acquired the technical skills required for a Junior data engineer. Adapted to an agile working environment and agile software development to ensure team cohesion, collaboration, and overall success.
 Worked on big data projects which involves the latest technologies, such as Java, Spring, Cloud platforms, Hadoop, Spark, Linux, Postgresql, etc.
 
 **Coop, Zhejiang Lida Modern Textile Company, China (2019-2019):**   
