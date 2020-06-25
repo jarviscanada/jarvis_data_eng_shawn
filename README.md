@@ -4,18 +4,18 @@
 I recently graduated from Carleton University with a Bachelor's Degree in Electrical Engineering. 
 After I graduate, I Choose to move my career path more towards the software side.
 I am passionate about learning new stuff as well as applying new skills.
-Over the last year, I have self-taught myself computer science data structures and algorithms and I have done several projects that related to programming.
+Over the last year, I have done several projects that related to computer programming.
 Throughout my education and my varied project experiences, I am starting to build up a wide knowledge base and learning how to quickly adapt to new concepts, which I believe makes me invulnerable in the Data Engineering industry.
 For leisure time, I like to play competitive video games with friends which can make me feel energize and improve my ability of instance reaction.
-Overall, I am excited to pursue a career as a data engineering and further develop my skill sets.
+Overall, I am excited to pursue a career as a software developer and further develop my skill sets.
 
 ## Technical Acumen
 
-**Proficient:** Java, Linux/Bash, RDBMS/SQL, Agile/Scrum, C, Git
+**Proficient:** Java, Linux/Bash, RDBMS/SQL, Agile/Scrum, C, Git, Raspberry PI
 
 **Competent:** Springboot, Mockito, Java Lambda & Stream APIs, Junit, Python, C++. MATLAB, Embedded System
 
-**Familiar:** Google Cloud Platform, Tensorflow, 
+**Familiar:** Google Cloud Platform, Tensorflow, openCV, Machine Learning
 
 ## Development Projects
 
@@ -61,7 +61,7 @@ Utilized machine learning framework and TensorFlow to create computer vision and
 
 **Carleton University (2014-2019)**, Bachelor of Engineering, Electrical Engineering
 
-## Other Projects
+## Highlighted Personal Projects
 
 - **Raspberry Pi auto water refill system with GCP utilization and ESP8266 chip:**  
 Created an auto water refill system through a Wi-Fi network for cats. Created an object detection system by using the Google Cloud Vision. 
