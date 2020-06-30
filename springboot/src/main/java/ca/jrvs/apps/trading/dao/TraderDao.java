@@ -62,9 +62,15 @@ public class TraderDao extends JdbcCrudDao<Trader> {
     return Trader.class;
   }
 
+  /**
+   * update trader information by trader id
+   * @param trader
+   */
   @Override
-  public int updateOne(Trader entity) {
-    throw new  UnsupportedOperationException("not implemented");
+  public int updateOne(Trader trader) {
+    String updateSQL = "UPDATE "+ TABLE_NAME + " SET first_name=?, last_name=?, dob=?, "
+        + "country=?, email=? WHERE id=?";
+    return jdbcTemplate.update(updateSQL, makeUpdateValues(trader));
   }
 
   @Override

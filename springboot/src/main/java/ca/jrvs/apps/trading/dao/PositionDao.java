@@ -1,11 +1,15 @@
 package ca.jrvs.apps.trading.dao;
 
 import ca.jrvs.apps.trading.model.domain.Position;
+import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
+import org.hibernate.boot.jaxb.hbm.internal.CacheAccessTypeConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -80,10 +84,44 @@ public class PositionDao extends JdbcCrudDao<Position> {
 
   @Override
   public int updateOne(Position entity) {
-    return 0;
+    throw new UnsupportedOperationException("Update not supported");
   }
+
+  /**
+   *  finds position by account ID by trader id
+   * @param accountId
+   * @param ticker
+   * @return
+   */
    public Optional<Position> getByAccountIdAndTicker(Integer accountId, String ticker){
     Optional<Position> entity = Optional.empty();
-    String selectSql = "SELECT * FROM "+ getTABLE_NAME() + "WHERE" +
+    String selectSql = "SELECT * FROM "+ getTABLE_NAME() + "WHERE"
+        +getIdColumnName() + "= " + accountId + " AND " + TICKER_COLUMN + "='" + ticker + "'";
+    try{
+      entity = Optional.ofNullable((Position)getJdbcTemplate().queryForObject(selectSql,
+          BeanPropertyRowMapper.newInstance(getEntityClass())));
+    }catch(IncorrectResultSizeDataAccessException e){
+      logger.debug("can not find position ", accountId +",ticker:"+ ticker,e);
+    }
+    return entity;
    }
+
+  /**
+   * finds position by account ID by trader id
+   * @param accountID
+   */
+  public List<Position> findPositionByAccountID(Integer accountID){
+    List<Position> entities = null;
+    String selectSql = "SELECT * FROM " + getTableName() + " WHERE " + getIdColumnName() + "= " + accountID ;
+
+    try {
+      entities = getJdbcTemplate().
+          query(selectSql,
+              BeanPropertyRowMapper.newInstance(getEntityClass()));
+    } catch (IncorrectResultSizeDataAccessException e ){
+      logger.debug("Can't find Position by account ID", e);
+    }
+    return entities;
+  }
+
 }
