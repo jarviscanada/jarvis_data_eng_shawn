@@ -1,17 +1,17 @@
 
 
 # Shawn(Xinyu) Wang . Jarvis Consulting
-I recently graduated from Carleton University with a Bachelor's Degree in Electrical Engineering. 
+I recently graduated from Carleton University with a Bachelor's Degree in Electrical and Computer Engineering. 
 After I graduate, I Choose to move my career path more towards the software side.
 I am passionate about learning new stuff as well as applying new skills.
 Over the last year, I have done several projects that related to computer programming.
-Throughout my education and my varied project experiences, I am starting to build up a wide knowledge base and learning how to quickly adapt to new concepts, which I believe makes me invulnerable in the Data Engineering industry.
+Throughout my education and my varied project experiences, I am starting to build up a wide knowledge base and learning how to quickly adapt to new concepts, which I believe makes me invulnerable in the software engineering.
 For leisure time, I like to play competitive video games with friends which can make me feel energize and improve my ability of instance reaction.
 Overall, I am excited to pursue a career as a software developer and further develop my skill sets.
 
 ## Technical Acumen
 
-**Proficient:** Java, Linux/Bash, RDBMS/SQL, Agile/Scrum, C, Git, Raspberry PI
+**Proficient:** Java, Linux/Bash, RDBMS/SQL, Agile/Scrum, Git, C, Raspberry PI
 
 **Competent:** Springboot, Mockito, Java Lambda & Stream APIs, Junit, Python, C++. MATLAB, Embedded System
 
@@ -28,17 +28,16 @@ information of all nodes with the help of the bash agent installed in all of the
 collection of resource usage information every minute. Coded SQL queries to generate reports for some business questions.
                                       
 - **[Core Java Apps](./core_java)**:  
-  * Designed a Java8 based application called JavaGrep that searches all files in a directory
-recursively for a user-provided regular expression. Implemented method that contain those expressions and sent into a new file. 
+  * Designed a Java application that searches all files in a directory
+recursively for a user-provided regular expression and machied lines are saved to a output file. Implemented the application using Java 8 Stream and Lambda APIs in order to improve application efficiency. Ultimized maven to manage the project dependencies.
   * Developed a JDBC-based application that allows users to perform basic CRUD operations on a PostgreSQL database
 using DAO pattern. 
   * Designed a Java8 based application called TwitterCLI which helps users create, read, and
-delete posts on Twitter using Twitter Rest API. Implemented four versions of the TwitterCLI application - basic Java
-version, Spring Beans version, Spring Component Scan version, and Springboot version. Wrote Unit Tests and
-Integration Tests for the applications using JUnit4 and Mockito.
+delete posts on Twitter using Twitter Rest API. Implemented the application using Springboot. Wrote unit and
+integration tests for the applications using JUnit4 and Mockito libraries. 
                                      
 - **[SpringBoot App](./springboot)**: *[in-progress]*  
-  * Implemented Java8 and Springboot based REST API of a trading platform that uses IEX Cloud
+  * Implemented a Java 8 and Springboot based REST API of a trading platform that uses IEX Cloud (a REST API that provides stock data)
 as a data source and PostgreSQL to persist data. Used a three-tier microservice architecture to implement it. Made
 use of Spring DAO to handle data access in PostgreSQL. Wrote unit and integration test using JUnit4 and Mockito.
 Dockerized the application.  
