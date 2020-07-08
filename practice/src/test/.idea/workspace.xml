@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="db6b7c09-d6b3-4f65-ab8c-940b1d2fc0ab" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../main/java/ca/jrvs/practice/codingChallenge/EvenOrOdd.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../main/java/ca/jrvs/practice/codingChallenge/EvenOrOddTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectId" id="1e3GpUdkyQLCjKz8ra6ttwdkaCb" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="project.structure.last.edited" value="SDKs" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="db6b7c09-d6b3-4f65-ab8c-940b1d2fc0ab" name="Default Changelist" comment="" />
+      <created>1593543045713</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1593543045713</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="736" y="289" width="430" height="486" key="FileChooserDialogImpl" timestamp="1593543062117">
+      <screen x="0" y="31" width="1920" height="1000" />
+    </state>
+    <state x="736" y="289" width="430" height="486" key="FileChooserDialogImpl/0.31.1920.1000@0.31.1920.1000" timestamp="1593543062117" />
+  </component>
+</project>

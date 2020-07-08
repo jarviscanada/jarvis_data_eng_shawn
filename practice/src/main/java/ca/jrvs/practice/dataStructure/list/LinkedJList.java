@@ -1,5 +1,6 @@
 package ca.jrvs.practice.dataStructure.list;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -162,6 +163,8 @@ public class LinkedJList<E> implements JList<E>{
     return x;
   }
 
+
+
   /**
    * Unlinks non-null node x.
    */
@@ -228,6 +231,8 @@ public class LinkedJList<E> implements JList<E>{
     if (!isPositionIndex(index))
       throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
   }
+
+
 
   private boolean isPositionIndex(int index) {
     return index >= 0 && index <= size;
