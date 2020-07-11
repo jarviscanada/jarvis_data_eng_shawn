@@ -29,15 +29,16 @@ public class QuoteService {
   }
 
 public void updateMarketData(){
-  List<Quote> quotes = (List<Quote>) quoteDao.findAll();
+  List<Quote> quotes = findAllQuotes();
   IexQuote iexQuote = new IexQuote();
-  Quote quote1 = new Quote();
-  for(Quote quote:quotes){
+  Quote tempQuote = new Quote();
+  for (Quote quote : quotes){
     String ticker = quote.getTicker();
     iexQuote = marketDataDao.findById(ticker).get();
-    quote1 = buildQuoteFromIexQuote(iexQuote);
-    quoteDao.save(quote1);
+    tempQuote = buildQuoteFromIexQuote(iexQuote);
+    quoteDao.save(tempQuote);
   }
+
 }
 
   /**
@@ -111,4 +112,16 @@ public void updateMarketData(){
   public Quote saveQuote(Quote quote){
     return quoteDao.save(quote);
   }
+
+  /**
+   * Persists quotes to database
+   *
+   * @param quotes a list of quotes
+   * @return updated quotes
+   */
+  public List<Quote> saveAllQuotes(List<Quote> quotes) {
+    quoteDao.saveAll(quotes);
+    return quotes;
+  }
 }
+
