@@ -10,7 +10,9 @@ import ca.jrvs.apps.trading.model.domain.Trader;
 import ca.jrvs.apps.trading.model.view.TraderAccountView;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TraderAccountService {
   private TraderDao traderDao;
   private AccountDao accountDao;

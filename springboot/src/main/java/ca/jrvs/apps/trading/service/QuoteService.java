@@ -22,7 +22,7 @@ public class QuoteService {
   private QuoteDao quoteDao;
   private MarketDataDao marketDataDao;
 
-  @Autowired
+
   public QuoteService(QuoteDao quoteDao, MarketDataDao marketDataDao){
     this.quoteDao=quoteDao;
     this.marketDataDao=marketDataDao;

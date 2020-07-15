@@ -15,7 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-//@Api(value= "quote", products = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@Api(value= "quote", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Controller
 @RequestMapping("/quote")
 public class QuoteController {
@@ -25,8 +25,8 @@ public class QuoteController {
   @Autowired
   public QuoteController(QuoteService quoteService){this.quoteService=quoteService;}
 
-  //@ApiOperation(value="Show iexQuote", notes = "Show iexQuote for a given ticker/symbol")
-  //@ApiResponses(value = {@ApiResponse(code = 404, message= "ticker is not found")})
+  @ApiOperation(value="Show iexQuote", notes = "Show iexQuote for a given ticker/symbol")
+  @ApiResponses(value = {@ApiResponse(code = 404, message= "ticker is not found")})
   @GetMapping(path = "/iex/ticker/{ticker}")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
@@ -50,7 +50,7 @@ public class QuoteController {
     }
   }
 
-  //@ApiOperation(value="Add a new ticker in the dailylist(quote table)", notes = "add a new ticker/symbol to the quote table, so trader can trader this  security")
+  @ApiOperation(value="Add a new ticker in the dailylist(quote table)", notes = "add a new ticker/symbol to the quote table, so trader can trader this  security")
   @PostMapping(path = "/tickerID/{tickerId}")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
@@ -62,8 +62,8 @@ public class QuoteController {
     }
   }
 
-  //@ApiOperation(value="update a given quote in the quote table", notes = "manually updater a quote in the quote table using iex market data")
-  @PutMapping(path = "/quote/")
+  @ApiOperation(value="update a given quote in the quote table", notes = "manually updater a quote in the quote table using iex market data")
+  @PutMapping(path = "/")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public Quote putQuote(@RequestBody Quote quote){
@@ -74,7 +74,7 @@ public class QuoteController {
     }
   }
 
-  //@ApiOperation(value="show the dailylsit", notes = "show the dailylist for this trading system")
+  @ApiOperation(value="show the dailylsit", notes = "show the dailylist for this trading system")
   @GetMapping(path = "/dailyList")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
