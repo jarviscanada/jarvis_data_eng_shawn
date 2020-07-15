@@ -1,116 +1,79 @@
 package ca.jrvs.apps.trading.service;
 
-
 import ca.jrvs.apps.trading.dao.MarketDataDao;
 import ca.jrvs.apps.trading.dao.QuoteDao;
 import ca.jrvs.apps.trading.model.domain.IexQuote;
 import ca.jrvs.apps.trading.model.domain.Quote;
-import java.util.ArrayList;
 import java.util.List;
-import javax.transaction.Transactional;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service
 public class QuoteService {
+
   private static final Logger logger = LoggerFactory.getLogger(QuoteService.class);
 
   private QuoteDao quoteDao;
   private MarketDataDao marketDataDao;
 
-
-  public QuoteService(QuoteDao quoteDao, MarketDataDao marketDataDao){
-    this.quoteDao=quoteDao;
-    this.marketDataDao=marketDataDao;
+  @Autowired
+  public QuoteService(QuoteDao quoteDao, MarketDataDao marketDataDao) {
+    this.quoteDao = quoteDao;
+    this.marketDataDao = marketDataDao;
   }
-
-public void updateMarketData(){
-  List<Quote> quotes = findAllQuotes();
-  IexQuote iexQuote = new IexQuote();
-  Quote tempQuote = new Quote();
-  for (Quote quote : quotes){
-    String ticker = quote.getTicker();
-    iexQuote = marketDataDao.findById(ticker).get();
-    tempQuote = buildQuoteFromIexQuote(iexQuote);
-    quoteDao.save(tempQuote);
-  }
-
-}
 
   /**
+   * Helper method to map an iexQuote to a quote entity
+   * Note: 'iexQuote.getLatestPrice()==null' if the stock market is closed
    *
-   * @param iexQuote
-   * @return quote
+   * @param iexQuote to be mapped
+   * @return mapped Quote
    */
-  private Quote buildQuoteFromIexQuote(IexQuote iexQuote) {
+  protected static Quote buildQuoteFromIexQuote(IexQuote iexQuote) {
     Quote quote = new Quote();
     quote.setTicker(iexQuote.getSymbol());
-    if(iexQuote.getLatestPrice()==null){
-      quote.setLastPrice(null);
-    }else {
-      quote.setLastPrice(Double.parseDouble(iexQuote.getLatestPrice()));
-    }
-    quote.setAskPrice(Double.parseDouble(iexQuote.getIexAskPrice()));
-    quote.setAskSize(Integer.parseInt(iexQuote.getIexAskSize()));
-    quote.setBidPrice(Double.parseDouble(iexQuote.getIexBidPrice()));
-    quote.setBidSize(Integer.parseInt(iexQuote.getIexBidSize()));
+    quote.setLastPrice(iexQuote.getLatestPrice());
+    quote.setBidPrice(iexQuote.getIexBidPrice());
+    quote.setBidSize(iexQuote.getIexBidSize());
+    quote.setAskPrice(iexQuote.getIexAskPrice());
+    quote.setAskSize(iexQuote.getIexAskSize());
     return quote;
   }
 
-
   /**
-   * find all quotes from the quote table
-   * @return list of quotes
-   */
-  public List<Quote> findAllQuotes(){
-    return (List<Quote>) quoteDao.findAll();
-  }
-
-
-  /**
+   * Update quote table against IEX source
+   * - get all quotes from the db
+   * - foreach ticker get iexQuote
+   * - convert iexQuote to quote entity
+   * - persist quote to db
    *
-   * @param ticker id
-   * @return IexQuote object
-   * @throws IllegalArgumentException if ticker is invalid
+   * @return updated quotes
+   * @throws ca.jrvs.apps.trading.dao.ResourceNotFoundException if ticker is not found from IEX
+   * @throws org.springframework.dao.DataAccessException        if unable to retrieve data
+   * @throws IllegalArgumentException                           for invalid input
    */
-  public IexQuote findIexQuoteByTicker(String ticker){
-    return marketDataDao.findById(ticker).orElseThrow(()-> new IllegalArgumentException(ticker +"is invalid ticker"));
-  }
-
-  /**
-   *
-   * @param tickers
-   * @return
-   */
-  public List<Quote> savedQuotes(List<String> tickers){
-    Quote quote;
-    List<Quote> savedQuote = new ArrayList<>();
-    List<IexQuote> iexQuotes= marketDataDao.findAllById(tickers);
-    for(IexQuote iexQuote: iexQuotes){
+  public List<Quote> updateMarketData() {
+    List<Quote> quotes = findAllQuotes();
+    for (Quote quote : quotes) {
+      IexQuote iexQuote = findIexQuoteByTicker(quote.getTicker());
       quote = buildQuoteFromIexQuote(iexQuote);
-      savedQuote.add(quoteDao.save(quote));
     }
-    return savedQuote;
+    saveAllQuotes(quotes);
+    return quotes;
   }
 
   /**
+   * Find all quotes from the quote table
    *
-   * @param ticker
-   * @return
+   * @return a list of quotes
    */
-  public Quote saveQuote(String ticker){
-    IexQuote iexQuote = new IexQuote();
-    iexQuote = marketDataDao.findById(ticker).get();
-    Quote quote = buildQuoteFromIexQuote(iexQuote);
-    return quoteDao.save(quote);
-  }
-
-  public Quote saveQuote(Quote quote){
-    return quoteDao.save(quote);
+  public List<Quote> findAllQuotes() {
+    return quoteDao.findAll();
   }
 
   /**
@@ -123,5 +86,46 @@ public void updateMarketData(){
     quoteDao.saveAll(quotes);
     return quotes;
   }
-}
 
+  /**
+   * Finds an IexQuote
+   *
+   * @param ticker ticker whose quote is to be found
+   * @return quote from IEX for ticker
+   * @throws IllegalArgumentException if ticker is not found in IEX Cloud
+   */
+  public IexQuote findIexQuoteByTicker(String ticker) {
+    Optional<IexQuote> iexquote;
+    try {
+      iexquote = marketDataDao.findById(ticker.toUpperCase());
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(e.getMessage());
+    }
+    if (iexquote.isPresent()) {
+      return iexquote.get();
+    } else {
+      throw new IllegalArgumentException("Inavalid ticker : " + ticker);
+    }
+  }
+
+  /**
+   * Updates/adds provided quote to quote table
+   *
+   * @param quote provided quote
+   * @return updated/added quote
+   */
+  public Quote saveQuote(Quote quote) {
+    return quoteDao.save(quote);
+  }
+
+  /**
+   * Adds a quote of new ticker to the quote table
+   *
+   * @param tickerId new ticker
+   * @return added quote
+   */
+  public Quote saveQuote(String tickerId) {
+    Quote newQuote = buildQuoteFromIexQuote(findIexQuoteByTicker(tickerId));
+    return saveQuote(newQuote);
+  }
+}

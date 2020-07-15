@@ -1,15 +1,15 @@
 package ca.jrvs.apps.trading.model.domain;
 
-import org.hibernate.procedure.spi.ParameterRegistrationImplementor;
+import java.util.Objects;
 
-public class Quote<ID> implements Entity<String> {
+public class Quote implements Entity<String> {
 
   private String ticker;
   private Double lastPrice;
-  private double bidPrice;
-  private Integer bidSize;
+  private Double bidPrice;
+  private Long bidSize;
   private Double askPrice;
-  private Integer askSize;
+  private Long askSize;
 
   @Override
   public String getId() {
@@ -17,8 +17,8 @@ public class Quote<ID> implements Entity<String> {
   }
 
   @Override
-  public void setId(String s) {
-    this.ticker = s;
+  public void setId(String ticker) {
+    this.ticker = ticker;
   }
 
   public String getTicker() {
@@ -37,19 +37,19 @@ public class Quote<ID> implements Entity<String> {
     this.lastPrice = lastPrice;
   }
 
-  public double getBidPrice() {
+  public Double getBidPrice() {
     return bidPrice;
   }
 
-  public void setBidPrice(double bidPrice) {
+  public void setBidPrice(Double bidPrice) {
     this.bidPrice = bidPrice;
   }
 
-  public Integer getBidSize() {
+  public Long getBidSize() {
     return bidSize;
   }
 
-  public void setBidSize(Integer bidSize) {
+  public void setBidSize(Long bidSize) {
     this.bidSize = bidSize;
   }
 
@@ -61,11 +61,40 @@ public class Quote<ID> implements Entity<String> {
     this.askPrice = askPrice;
   }
 
-  public Integer getAskSize() {
+  public Long getAskSize() {
     return askSize;
   }
 
-  public void setAskSize(Integer askSize) {
+  public void setAskSize(Long askSize) {
     this.askSize = askSize;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Quote quote = (Quote) o;
+    return Objects.equals(ticker, quote.ticker) &&
+        lastPrice.equals(quote.lastPrice) &&
+        bidPrice.equals(quote.bidPrice) &&
+        bidSize.equals(quote.bidSize) &&
+        askPrice.equals(quote.askPrice) &&
+        askSize.equals(quote.askSize);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(ticker, lastPrice, bidPrice, bidSize, askPrice, askSize);
+  }
+
+  @Override
+  public String toString() {
+    return "Quote{" +
+        "ticker='" + ticker + '\'' +
+        '}';
   }
 }

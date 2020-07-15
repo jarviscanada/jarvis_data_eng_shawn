@@ -1,10 +1,7 @@
 package ca.jrvs.apps.trading.dao;
 
-import ca.jrvs.apps.trading.model.domain.Entity;
 import ca.jrvs.apps.trading.model.domain.Trader;
-import com.google.common.base.FinalizablePhantomReference;
 import javax.sql.DataSource;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +10,22 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class TraderDao extends JdbcCrudDao<Trader> {
+public class TraderDao extends JdbcCrudDao<Trader, Integer> {
 
-  private static final Logger logger = LoggerFactory.getLogger(TraderDao.class);
+  private static final String TABLE_NAME = "trader";
+  private static final String ID_COLUMN_NAME = "id";
 
-  private final String TABLE_NAME="trader";
-  private final String ID_COLUMN="id";
-
+  private static final Logger logger = LoggerFactory.getLogger(QuoteDao.class);
   private JdbcTemplate jdbcTemplate;
   private SimpleJdbcInsert simpleJdbcInsert;
 
   @Autowired
-  public  TraderDao(DataSource dataSource){
-    this.jdbcTemplate = new JdbcTemplate(dataSource);
-    this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName(TABLE_NAME)
-        .usingGeneratedKeyColumns(ID_COLUMN);
+  public TraderDao(DataSource dataSource) {
+    jdbcTemplate = new JdbcTemplate((dataSource));
+    simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName(TABLE_NAME)
+        .usingGeneratedKeyColumns(ID_COLUMN_NAME);
   }
+
   @Override
   public JdbcTemplate getJdbcTemplate() {
     return jdbcTemplate;
@@ -39,14 +36,6 @@ public class TraderDao extends JdbcCrudDao<Trader> {
     return simpleJdbcInsert;
   }
 
-  public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-    this.jdbcTemplate = jdbcTemplate;
-  }
-
-  public void setSimpleJdbcInsert(SimpleJdbcInsert simpleJdbcInsert) {
-    this.simpleJdbcInsert = simpleJdbcInsert;
-  }
-
   @Override
   public String getTableName() {
     return TABLE_NAME;
@@ -54,7 +43,7 @@ public class TraderDao extends JdbcCrudDao<Trader> {
 
   @Override
   public String getIdColumnName() {
-    return ID_COLUMN;
+    return ID_COLUMN_NAME;
   }
 
   @Override
@@ -63,32 +52,13 @@ public class TraderDao extends JdbcCrudDao<Trader> {
   }
 
   /**
-   * update trader information by trader id
-   * @param trader
+   * Update all the provided entities in the entity table
+   *
+   * @param iterable list of entities
+   * @return updated list of entities
    */
   @Override
-  public int updateOne(Trader trader) {
-    String updateSQL = "UPDATE "+ TABLE_NAME + " SET first_name=?, last_name=?, dob=?, "
-        + "country=?, email=? WHERE id=?";
-    return jdbcTemplate.update(updateSQL, makeUpdateValues(trader));
-  }
-
-  @Override
-  public void delete(Trader entity) {
-    throw new  UnsupportedOperationException("not implemented");
-  }
-
-  @Override
-  public void deleteAll(Iterable<? extends Trader> entities) {
-    throw new  UnsupportedOperationException("not implemented");
-  }
-
-  private Object[] makeUpdateValues(Trader trader) {
-    return new Object[]{trader.getFirst_name(), trader.getLast_name(), trader.getDob(),
-        trader.getCountry(), trader.getEmail(), trader.getId()};
-  }
-
-  public static Logger getLogger() {
-    return logger;
+  public Iterable saveAll(Iterable iterable) {
+    throw new UnsupportedOperationException("Not implemented");
   }
 }

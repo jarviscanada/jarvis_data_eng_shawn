@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
-public abstract class JdbcCrudDao<T extends Entity<Integer>> implements CrudRepository<T, Integer> {
+public abstract class JdbcCrudDao<T extends Entity<E>, E> implements CrudRepository<T, E> {
 
   private static final Logger logger = LoggerFactory.getLogger(JdbcCrudDao.class);
 
@@ -29,20 +29,18 @@ public abstract class JdbcCrudDao<T extends Entity<Integer>> implements CrudRepo
 
   abstract Class<T> getEntityClass();
 
-
   /**
-   * Saves a given entity. Use the returned instance for further operations as the save operation
-   * might have changed the entity instance completely.
+   * Saves an entity and update auto-generated integer ID
    *
-   * @param entity must not be {@literal null}.
-   * @return the saved entity will never be {@literal null}.
+   * @param entity to be saved
+   * @param <S>    type of entity
+   * @return saved entity
    */
   @Override
   public <S extends T> S save(S entity) {
-    if (existsById(entity.getId())) {
-      int updateRowNumber = updateOne(entity);
-      if (updateRowNumber != 1) {
-        throw new DataRetrievalFailureException("unable to update");
+    if (existsById((entity.getId()))) {
+      if (updateOne(entity) != 1) {
+        throw new DataRetrievalFailureException("Unable to update quote");
       }
     } else {
       addOne(entity);
@@ -50,168 +48,142 @@ public abstract class JdbcCrudDao<T extends Entity<Integer>> implements CrudRepo
     return entity;
   }
 
+  /**
+   * Helper method to add new entity into entity table
+   *
+   * @param entity to be added
+   * @param <S>    type of entity
+   */
   private <S extends T> void addOne(S entity) {
     SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(entity);
-    Number newId = getSimpleJdbcInsert().executeAndReturnKey(parameterSource);
-    entity.setId(newId.intValue());
-  }
-
-  abstract public int updateOne(T entity);
-
-  /**
-   * Saves all given entities.
-   *
-   * @param entities must not be {@literal null}.
-   * @return the saved entities will never be {@literal null}.
-   * @throws IllegalArgumentException in case the given entity is {@literal null}.
-   */
-  @Override
-  public <S extends T> Iterable<S> saveAll(Iterable<S> entities) {
-    for (S entity : entities) {
-      save(entity);
-    }
-    return entities;
+    E newId = (E) getSimpleJdbcInsert().executeAndReturnKey(parameterSource);
+    entity.setId(newId);
   }
 
   /**
-   * Retrieves an entity by its id.
+   * Helper method to update entity fields in entity table
    *
-   * @param integer must not be {@literal null}.
-   * @return the entity with the given id or {@literal Optional#empty()} if none found
-   * @throws IllegalArgumentException if {@code id} is {@literal null}.
+   * @param entity to be updated
+   * @param <S>    type of entity
+   * @return row number of entity
+   */
+  public <S extends T> int updateOne(S entity) {
+    throw new UnsupportedOperationException("Not implemented");
+  }
+
+  /**
+   * Updates all the provided entities in the entity table
+   *
+   * @param iterable list of entities
+   * @param <S>      type of entity
+   * @return updated list of entities
    */
   @Override
-  public Optional<T> findById(Integer integer) {
+  public abstract <S extends T> Iterable<S> saveAll(Iterable<S> iterable);
+
+  /**
+   * Finds an enity given its id
+   *
+   * @param id of entity to be found
+   * @return found entity or Optional.empty()
+   */
+  @Override
+  public Optional<T> findById(E id) {
     Optional<T> entity = Optional.empty();
-    String selectSql = "SELECT * FROM " + getTableName() + " WHERE " + getIdColumnName() + "=?";
+    String findSql = "SELECT * FROM " + getTableName() + " WHERE " + getIdColumnName() + " = ?";
     try {
-      entity = Optional.ofNullable((T) getJdbcTemplate().queryForObject(selectSql,
-          BeanPropertyRowMapper.newInstance(getEntityClass()), integer));
+      entity = Optional.ofNullable(getJdbcTemplate().queryForObject(findSql,
+          BeanPropertyRowMapper.newInstance(getEntityClass()), id));
     } catch (IncorrectResultSizeDataAccessException e) {
-      logger.debug("can not find the id" + integer, e);
+      logger.debug("Can't find trader id: " + id, e);
     }
     return entity;
   }
 
   /**
-   * Returns whether an entity with the given id exists.
+   * Checks if entity exists in entity table
    *
-   * @param integer must not be {@literal null}.
-   * @return {@literal true} if an entity with the given id exists, {@literal false} otherwise.
-   * @throws IllegalArgumentException if {@code id} is {@literal null}.
+   * @param id to be searched
+   * @return true if found, false otherwise
    */
   @Override
-  public boolean existsById(Integer integer) {
-    String selectSql =
-        "SELECT * FROM " + getTableName() + " WHERE " + getIdColumnName() + " = " + integer;
-    List<T> entities = getJdbcTemplate()
-        .query(selectSql, BeanPropertyRowMapper.newInstance(getEntityClass()));
-    if (entities.size() == 1) {
-      T outQuote = entities.get(0);
-      return true;
-    } else {
+  public boolean existsById(E id) {
+    if (id == null) {
       return false;
     }
-  }
-
-
-  public List<T> findByColumn(String column, Object val) {
-    List<T> entities = null;
-    String selectSql = "SELECT * FROM " + getTableName() + " WHERE " + column + "=?";
-    try {
-      entities = getJdbcTemplate()
-          .query(selectSql, BeanPropertyRowMapper.newInstance(getEntityClass()), val);
-    } catch (IncorrectResultSizeDataAccessException e) {
-      logger.debug("Can't find trader id: " + val, e);
-    }
-    return entities;
+    String countSql =
+        "SELECT COUNT(*) FROM " + getTableName() + " WHERE " + getIdColumnName() + " = ?";
+    long count = getJdbcTemplate().queryForObject(countSql, Long.class, id);
+    return count != 0L;
   }
 
   /**
-   * Returns all instances of the type.
+   * Finds all entities in entity table
    *
-   * @return all entities
+   * @return list of all entities in entity table
    */
   @Override
-  public Iterable<T> findAll() {
-    return null;
+  public List<T> findAll() {
+    return getJdbcTemplate()
+        .query("SELECT * FROM " + getTableName(),
+            BeanPropertyRowMapper.newInstance(getEntityClass()));
   }
 
-
   /**
-   * Returns all instances of the type with the given IDs.
+   * Finds all entities of provided ids in entity table
    *
-   * @param integers
-   * @return
+   * @param ids list of ids to be found
+   * @return list of found entities
    */
   @Override
-  public Iterable<T> findAllById(Iterable<Integer> integers) {
-    List<T> entities = new ArrayList<>();
-    for (int id : integers) {
-      entities.add(findById(id).orElseThrow(IllegalArgumentException::new));
+  public Iterable<T> findAllById(Iterable<E> ids) {
+    List<T> allEntities = new ArrayList<>();
+    for (E id : ids) {
+      List<T> entityOfCurrentId = getJdbcTemplate()
+          .query("SELECT * FROM " + getTableName() + " WHERE " + getIdColumnName() + " = ?",
+              BeanPropertyRowMapper.newInstance(getEntityClass()), id);
+      allEntities.addAll(entityOfCurrentId);
     }
-    return entities;
+    return allEntities;
   }
 
   /**
-   * Returns the number of entities available.
+   * Counts total number of entities in entity table
    *
-   * @return the number of entities
+   * @return count of entities in entity table
    */
   @Override
   public long count() {
-    long count = 0;
-    String sql = "SELECT COUNT(*) FROM " + getTableName();
-    return getJdbcTemplate().queryForObject(sql, Long.class);
+    String countSql = "SELECT COUNT(*) FROM " + getTableName();
+    return getJdbcTemplate().queryForObject(countSql, Long.class);
   }
 
   /**
-   * Deletes the entity with the given id.
+   * Deletes an entity when its id is provided
    *
-   * @param id must not be {@literal null}.
-   * @throws IllegalArgumentException in case the given {@code id} is {@literal null}
+   * @param id of entity to be deleted
    */
   @Override
-  public void deleteById(Integer id) {
+  public void deleteById(E id) {
     if (id == null) {
-      throw new IllegalArgumentException("id can not be null");
+      throw new IllegalArgumentException("ID can't be null");
     }
-    String deleteSql = "DELETE FROM " + getTableName() + " WHERE " + getIdColumnName() + "=?";
+    String deleteSql = "DELETE FROM " + getTableName() + " WHERE " + getIdColumnName() + " = ? ";
     getJdbcTemplate().update(deleteSql, id);
   }
 
-  public void deleteByColumn(String column, Object val) {
-    if (column.isEmpty() || val == null) {
-      throw new IllegalArgumentException("Column and Value can't be null");
-    }
-    String deleteSql = "DELETE FROM " + getTableName() + " WHERE " + column + "=?";
-    getJdbcTemplate().update(deleteSql, val);
-  }
-
-  /**
-   * Deletes a given entity.
-   *
-   * @param entity
-   * @throws IllegalArgumentException in case the given entity is {@literal null}.
-   */
   @Override
-  public void delete(T entity) {
-    throw new UnsupportedOperationException("Not implemented...");
+  public void delete(T t) {
+    throw new UnsupportedOperationException("Not implemented");
   }
 
-  /**
-   * Deletes the given entities.
-   *
-   * @param entities
-   * @throws IllegalArgumentException in case the given {@link Iterable} is {@literal null}.
-   */
   @Override
-  public void deleteAll(Iterable<? extends T> entities) {
-    throw new UnsupportedOperationException("Not implemented...");
+  public void deleteAll(Iterable<? extends T> iterable) {
+    throw new UnsupportedOperationException("Not implemented");
   }
 
   /**
-   * Deletes all entities managed by the repository.
+   * Deletes all entities in the entity table
    */
   @Override
   public void deleteAll() {

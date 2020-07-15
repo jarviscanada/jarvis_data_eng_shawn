@@ -1,19 +1,24 @@
 package ca.jrvs.apps.trading.model.domain;
 
-public class SecurityOrder implements Entity<Integer>{
+import java.util.Objects;
+
+public class SecurityOrder implements Entity<Integer> {
+
+  private Integer id;
   private Integer accountId;
-  private String status;
+  private Status status;
   private String ticker;
   private Integer size;
   private Double price;
   private String notes;
 
-  private Integer id;
 
+  @Override
   public Integer getId() {
     return id;
   }
 
+  @Override
   public void setId(Integer id) {
     this.id = id;
   }
@@ -27,11 +32,11 @@ public class SecurityOrder implements Entity<Integer>{
   }
 
   public String getStatus() {
-    return status;
+    return status.string;
   }
 
   public void setStatus(String status) {
-    this.status = status;
+    this.status = Status.valueOf(status);
   }
 
   public String getTicker() {
@@ -64,6 +69,51 @@ public class SecurityOrder implements Entity<Integer>{
 
   public void setNotes(String notes) {
     this.notes = notes;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    SecurityOrder that = (SecurityOrder) o;
+    return Objects.equals(id, that.id) &&
+        Objects.equals(accountId, that.accountId) &&
+        Objects.equals(status, that.status) &&
+        Objects.equals(ticker, that.ticker) &&
+        Objects.equals(size, that.size) &&
+        Objects.equals(price, that.price) &&
+        Objects.equals(notes, that.notes);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, accountId, status, ticker, size, price, notes);
+  }
+
+  @Override
+  public String toString() {
+    return "SecurityOrder{" +
+        "id=" + id +
+        ", accountId=" + accountId +
+        ", status='" + status + '\'' +
+        ", ticker='" + ticker + '\'' +
+        ", size=" + size +
+        ", price=" + price +
+        ", notes='" + notes + '\'' +
+        '}';
+  }
+
+  private enum Status {
+    FILLED("FILLED"), CANCELLED("CANCELLED"), PENDING("PENDING");
+    String string;
+
+    Status(String currentStatus) {
+      string = currentStatus;
+    }
   }
 
 }
