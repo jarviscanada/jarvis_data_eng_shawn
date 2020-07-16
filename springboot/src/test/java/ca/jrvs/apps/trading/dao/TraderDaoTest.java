@@ -1,128 +1,147 @@
 package ca.jrvs.apps.trading.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import ca.jrvs.apps.trading.TestConfig;
 import ca.jrvs.apps.trading.model.domain.Trader;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Optional;
 import org.assertj.core.util.Lists;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
-import java.util.*;
 
 @RunWith(SpringRunner.class)
+@SpringBootTest(classes = TestConfig.class)
 @Sql({"classpath:schema.sql"})
 public class TraderDaoTest {
+
+  @Rule
+  public ExpectedException expectedException = ExpectedException.none();
   @Autowired
   private TraderDao traderDao;
-  private Trader trader;
+  private Trader firstTrader = new Trader();
+  private Trader secondTrader = new Trader();
 
   @Before
-  public void setUp(){
-      traderDao.deleteAll();
-      trader = new Trader();
-      trader.setFirst_name("John");
-      trader.setLast_name("Smith");
-      trader.setCountry("China");
-      trader.setDob(new Date());
-      trader.setEmail("johnsmith@mail.com");
-      traderDao.save(trader);
+  public void insert() {
+    firstTrader.setFirstName("John");
+    firstTrader.setLastName("Doe");
+    firstTrader.setCountry("Canada");
+    firstTrader.setEmail("john.doe@gmail.com");
+    firstTrader.setDob(LocalDate.of(2000, 12, 12));
+    traderDao.save(firstTrader);
+
+    secondTrader.setFirstName("Jane");
+    secondTrader.setLastName("Smith");
+    secondTrader.setCountry("Canada");
+    secondTrader.setEmail("jane.smith@gmail.com");
+    secondTrader.setDob(LocalDate.of(2000, 1, 1));
+    traderDao.save(secondTrader);
   }
 
   @After
-  public void tearDown() {
-    traderDao.deleteById(trader.getId());
+  public void remove() {
+    traderDao.deleteById(firstTrader.getId());
+    traderDao.deleteById(secondTrader.getId());
   }
 
   @Test
-  public void updateOne() {
-    String firstName = "Bob";
-    String lastName = "Allen";
-    String country = "Canada";
-    trader.setFirst_name(firstName);
-    trader.setLast_name(lastName);
-    trader.setCountry(country);
+  public void testSave() {
+    //new trader
+    Trader newTrader = new Trader();
+    newTrader.setFirstName("Jane");
+    newTrader.setLastName("Smith");
+    newTrader.setCountry("Canada");
+    newTrader.setEmail("jane.smith@gmail.com");
+    newTrader.setDob(LocalDate.of(2000, 12, 12));
 
-    int changeNum = traderDao.updateOne(trader);
-    assertEquals(1,changeNum);
+    assertEquals(newTrader, traderDao.save(newTrader));
+
+    //old trader
+    newTrader.setFirstName("Jane");
+    newTrader.setLastName("Smith");
+    newTrader.setCountry("Canada");
+    newTrader.setEmail("jane.smith@gmail.com");
+    newTrader.setDob(LocalDate.of(2000, 9, 9));
+
+    expectedException.expect(UnsupportedOperationException.class);
+    expectedException.expectMessage("Not implemented");
+    traderDao.save(newTrader);
   }
 
   @Test
-  public void deleteAll() {
+  public void testFindById() {
+    //found
+    assertEquals(Optional.of(firstTrader), traderDao.findById(1));
+    //not found
+    assertEquals(Optional.empty(), traderDao.findById(3));
+  }
+
+  @Test
+  public void testExistsById() {
+    //found
+    assertTrue(traderDao.existsById(1));
+    //not found
+    assertFalse(traderDao.existsById(3));
+  }
+
+  @Test
+  public void testFindAll() {
+    Trader[] expectedTraders = new Trader[]{firstTrader, secondTrader};
+    Trader[] actualTraders = new Trader[2];
+    traderDao.findAll().toArray(actualTraders);
+
+    assertArrayEquals(expectedTraders, actualTraders);
+  }
+
+  @Test
+  public void testFindAllById() {
+    Trader[] expectedTraders = new Trader[]{firstTrader, secondTrader};
+    Trader[] actualTraders = new Trader[2];
+    Lists.newArrayList(traderDao.findAllById(Arrays.asList(1, 2))).toArray(actualTraders);
+
+    assertArrayEquals(expectedTraders, actualTraders);
+  }
+
+  @Test
+  public void testCount() {
+    assertEquals(2, traderDao.count());
+  }
+
+  @Test
+  public void testDeleteById() {
+    traderDao.deleteById(1);
+    Trader[] expectedTrader = new Trader[]{secondTrader};
+    Trader[] actualTrader = new Trader[1];
+    traderDao.findAll().toArray(actualTrader);
+
+    assertArrayEquals(expectedTrader, actualTrader);
+  }
+
+  @Test
+  public void testDeleteAll() {
     traderDao.deleteAll();
+
     assertEquals(0, traderDao.count());
-  }
-
-  @After
-  public void deleteOne() {
-    traderDao.deleteById(trader.getId());
-  }
-
-  @Test
-  public void getLogger() {
-    assertNotNull(traderDao.getLogger());
-  }
-
-  @Test
-  public void count() {
-    assertEquals(1, traderDao.count());
-  }
-
-  @Test
-  public void existsById() {
-    List<Trader> traders = Lists.newArrayList(traderDao.findAll());
-    for(Trader trader: traders) {
-      System.out.println("Id:" + trader.getId());
-    }
-    assertTrue(traderDao.existsById(trader.getId()));
-  }
-
-  @Test
-  public void findAllById() {
-    List<Integer> ids= Arrays.asList(trader.getId());
-    Iterable<Trader> savedTraders =traderDao.findAllById(ids);
-    List<Trader> traders = Lists.newArrayList(savedTraders);
-    assertEquals(1, traders.size());
-    assertEquals(trader.getFirst_name(), traders.get(0).getFirst_name());
-    assertEquals(trader.getLast_name(), traders.get(0).getLast_name());
-    assertEquals(trader.getCountry(), traders.get(0).getCountry());
-    assertEquals(trader.getEmail(), traders.get(0).getEmail());
-  }
-
-  @Test
-  public void findById() {
-    Trader savedTrader = traderDao.findById(trader.getId()).get();
-    assertEquals(trader.getFirst_name(), savedTrader.getFirst_name());
-    assertEquals(trader.getLast_name(), savedTrader.getLast_name());
-    assertEquals(trader.getCountry(), savedTrader.getCountry());
-    assertEquals(trader.getEmail(), savedTrader.getEmail());
   }
 
   @Test
   public void saveAll() {
-    List<Trader> traders = new ArrayList<Trader>();
-    Trader trader1 = new Trader();
-    trader1.setFirst_name("firstName1");
-    trader1.setLast_name("lastName1");
-    trader1.setCountry("Canada");
-    trader1.setDob(new Date());
-    trader1.setEmail("Trader1@mail.com");
+    expectedException.expect(UnsupportedOperationException.class);
+    expectedException.expectMessage("Not implemented");
+    traderDao.saveAll(null);
 
-    Trader trader2 = new Trader();
-    trader2.setFirst_name("firstName2");
-    trader2.setLast_name("lastName2");
-    trader2.setCountry("Canada");
-    trader2.setDob(new Date());
-    trader2.setEmail("Trader2@mail.com");
-
-    traders.add(trader1);
-    traders.add(trader2);
-    Iterable<Trader> savedTraders = traderDao.saveAll(traders);
-
-    assertNotNull(savedTraders);
-    assertEquals(3, traderDao.count());
   }
 }

@@ -1,20 +1,26 @@
 package ca.jrvs.apps.trading.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import ca.jrvs.apps.trading.TestConfig;
 import ca.jrvs.apps.trading.model.domain.Account;
 import ca.jrvs.apps.trading.model.domain.Quote;
 import ca.jrvs.apps.trading.model.domain.SecurityOrder;
 import ca.jrvs.apps.trading.model.domain.Trader;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import org.assertj.core.util.Lists;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,9 +28,15 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@Sql({"classpath:schema.sql"})
 @SpringBootTest(classes = {TestConfig.class})
+@Sql({"classpath:schema.sql"})
 public class SecurityOrderDaoTest {
+
+  @Rule
+  public ExpectedException expectedException = ExpectedException.none();
+
+  @Autowired
+  private SecurityOrderDao securityOrderDao;
 
   @Autowired
   private AccountDao accountDao;
@@ -33,150 +45,201 @@ public class SecurityOrderDaoTest {
   private TraderDao traderDao;
 
   @Autowired
-  private SecurityOrderDao securityOrderDao;
-
-  @Autowired
   private QuoteDao quoteDao;
 
-  private SecurityOrder securityOrder;
-
-  private Account account;
-
-  private Trader trader;
-
-  private Quote quote;
+  private SecurityOrder firstSecurityOrder = new SecurityOrder();
+  private SecurityOrder secondSecurityOrder = new SecurityOrder();
+  private Trader firstTrader = new Trader();
+  private Trader secondTrader = new Trader();
+  private Account firstAccount = new Account();
+  private Account secondAccount = new Account();
+  private Quote firstSavedQuote = new Quote();
+  private Quote secondSavedQuote = new Quote();
 
   @Before
-  public void insertOne() {
-    quote = new Quote();
-    quote.setTicker("AAPL");
-    quote.setAskPrice(26.3);
-    quote.setAskSize(52);
-    quote.setBidPrice(55.6);
-    quote.setBidSize(12);
-    quote.setLastPrice(26.6);
-    quoteDao.save(quote);
+  public void insert() {
+    firstTrader.setFirstName("John");
+    firstTrader.setLastName("Doe");
+    firstTrader.setCountry("Canada");
+    firstTrader.setEmail("john.doe@gmail.com");
+    firstTrader.setDob(LocalDate.of(2000, 12, 12));
+    traderDao.save(firstTrader);
+    secondTrader.setFirstName("Jane");
+    secondTrader.setLastName("Smith");
+    secondTrader.setCountry("Canada");
+    secondTrader.setEmail("jane.smith@gmail.com");
+    secondTrader.setDob(LocalDate.of(2000, 1, 1));
+    traderDao.save(secondTrader);
 
-    traderDao.deleteAll();
-    trader = new Trader();
-    trader.setFirst_name("firstName");
-    trader.setLast_name("lastName");
-    trader.setCountry("Canada");
-    trader.setDob(new Date());
-    trader.setEmail("trader@mail.com");
-    traderDao.save(trader);
+    firstAccount.setTraderId(1);
+    firstAccount.setAmount(1000.0);
+    accountDao.save(firstAccount);
+    secondAccount.setTraderId(2);
+    secondAccount.setAmount(1100.32);
+    accountDao.save(secondAccount);
 
-    accountDao.deleteAll();
-    account = new Account();
-    account.setAmount(100.01);
-    account.setTrader_id(trader.getId());
-    accountDao.save(account);
+    firstSavedQuote.setAskPrice(10d);
+    firstSavedQuote.setAskSize(10L);
+    firstSavedQuote.setBidPrice(10.2d);
+    firstSavedQuote.setBidSize(10L);
+    firstSavedQuote.setId("aapl");
+    firstSavedQuote.setLastPrice(10.1d);
+    quoteDao.save(firstSavedQuote);
+    secondSavedQuote.setAskPrice(11d);
+    secondSavedQuote.setAskSize(11L);
+    secondSavedQuote.setBidPrice(11.2d);
+    secondSavedQuote.setBidSize(11L);
+    secondSavedQuote.setId("amzn");
+    secondSavedQuote.setLastPrice(11.1d);
+    quoteDao.save(secondSavedQuote);
 
-    securityOrderDao.deleteAll();
-    securityOrder = new SecurityOrder();
-    securityOrder.setAccountId(account.getId());
-    securityOrder.setNotes("abcd");
-    securityOrder.setPrice(22.33);
-    securityOrder.setSize(2);
-    securityOrder.setPrice(33.22);
-    securityOrder.setStatus("accepted");
-    securityOrder.setTicker(quote.getTicker());
-    securityOrderDao.save(securityOrder);
+    firstSecurityOrder.setAccountId(1);
+    firstSecurityOrder.setTicker("aapl");
+    firstSecurityOrder.setStatus("FILLED");
+    firstSecurityOrder.setSize(4);
+    firstSecurityOrder.setPrice(35.23);
+    firstSecurityOrder.setNotes("Some notes");
+    securityOrderDao.save(firstSecurityOrder);
+    secondSecurityOrder.setAccountId(2);
+    secondSecurityOrder.setTicker("amzn");
+    secondSecurityOrder.setStatus("FILLED");
+    secondSecurityOrder.setSize(6);
+    secondSecurityOrder.setPrice(46.23);
+    secondSecurityOrder.setNotes("Some other notes");
+    securityOrderDao.save(secondSecurityOrder);
+  }
+
+  @After
+  public void remove() {
+    securityOrderDao.deleteById(firstSecurityOrder.getId());
+    securityOrderDao.deleteById(secondSecurityOrder.getId());
   }
 
   @Test
-  public void updateOne() {
-    Double price = 20.90;
-    Integer size = 6;
-    securityOrder.setPrice(price);
-    securityOrder.setSize(size);
+  public void save() {
+    //new security order
+    SecurityOrder newSecurityOrder = new SecurityOrder();
+    newSecurityOrder.setAccountId(2);
+    newSecurityOrder.setTicker("aapl");
+    newSecurityOrder.setStatus("FILLED");
+    newSecurityOrder.setSize(6);
+    newSecurityOrder.setPrice(46.23);
+    newSecurityOrder.setNotes("Some other notes");
 
-    int changeNum = securityOrderDao.updateOne(securityOrder);
+    assertEquals(newSecurityOrder, securityOrderDao.save(newSecurityOrder));
 
-    assertEquals(1, changeNum);
-  }
+    //old account
+    newSecurityOrder.setId(1);
+    newSecurityOrder.setAccountId(2);
+    newSecurityOrder.setTicker("aapl");
+    newSecurityOrder.setStatus("FILLED");
+    newSecurityOrder.setSize(6);
+    newSecurityOrder.setPrice(46.23);
+    newSecurityOrder.setNotes("Some other notes");
 
-  @Test
-  public void findAllById() {
-    List<Integer> ids= Arrays.asList(securityOrder.getId());
-    Iterable<SecurityOrder> savedSecurityOrders =securityOrderDao.findAllById(ids);
-    List<SecurityOrder> orders = Lists.newArrayList(savedSecurityOrders);
-    assertEquals(1, orders.size());
-    assertEquals(securityOrder.getPrice(), orders.get(0).getPrice());
-    assertEquals(securityOrder.getSize(), orders.get(0).getSize());
-
-  }
-
-  @Test
-  public void saveAll() {
-    List<SecurityOrder> orders = new ArrayList<SecurityOrder>();
-    SecurityOrder securityOrder1 = new SecurityOrder();
-    securityOrder1.setSize(23);
-    securityOrder1.setPrice(26.3);
-    securityOrder1.setTicker(quote.getTicker());
-    securityOrder1.setNotes("This is my note");
-    securityOrder1.setAccountId(account.getId());
-    securityOrder1.setStatus("Pending");
-
-    SecurityOrder securityOrder2 = new SecurityOrder();
-    securityOrder2.setSize(12);
-    securityOrder2.setPrice(28.4);
-    securityOrder2.setTicker(quote.getTicker());
-    securityOrder2.setNotes("This is my note");
-    securityOrder2.setAccountId(account.getId());
-    securityOrder2.setStatus("Completed");
-
-    orders.add(securityOrder1);
-    orders.add(securityOrder2);
-    Iterable<SecurityOrder> savedOrders = securityOrderDao.saveAll(orders);
-
-    assertNotNull(savedOrders);
-    assertEquals(3, securityOrderDao.count());
-
-    securityOrderDao.deleteById(securityOrder1.getId());
-    securityOrderDao.deleteById(securityOrder2.getId());
+    assertEquals(newSecurityOrder, securityOrderDao.save(newSecurityOrder));
   }
 
   @Test
   public void findById() {
-    SecurityOrder savedSecurityOrder = securityOrderDao.findById(securityOrder.getId()).get();
-    assertEquals(securityOrder.getPrice(), savedSecurityOrder.getPrice());
-    assertEquals(securityOrder.getSize(), savedSecurityOrder.getSize());
-    assertEquals(securityOrder.getNotes(), savedSecurityOrder.getNotes());
+    //found
+    assertEquals(Optional.of(firstSecurityOrder), securityOrderDao.findById(1));
+    //not found
+    assertEquals(Optional.empty(), securityOrderDao.findById(3));
   }
 
   @Test
   public void existsById() {
-    assertTrue(securityOrderDao.existsById(securityOrder.getId()));
+    //found
+    assertTrue(securityOrderDao.existsById(1));
+    //not found
+    assertFalse(securityOrderDao.existsById(6));
   }
 
   @Test
   public void findAll() {
-    Iterable<SecurityOrder> orders = securityOrderDao.findAll();
-    int count = 0;
-    for (SecurityOrder securityOrder: orders) {
-      count++;
-    }
-    assertEquals(1, count);
+    SecurityOrder[] expectedSecurityOrders = new SecurityOrder[]{firstSecurityOrder,
+        secondSecurityOrder};
+    SecurityOrder[] actualSecurityOrders = new SecurityOrder[2];
+    securityOrderDao.findAll().toArray(actualSecurityOrders);
+
+    assertArrayEquals(expectedSecurityOrders, actualSecurityOrders);
+  }
+
+  @Test
+  public void findAllById() {
+    SecurityOrder[] expectedSecurityOrders = new SecurityOrder[]{firstSecurityOrder,
+        secondSecurityOrder};
+    SecurityOrder[] actualSecurityOrders = new SecurityOrder[2];
+    Lists.newArrayList(securityOrderDao.findAllById(Arrays.asList(1, 2)))
+        .toArray(actualSecurityOrders);
+
+    assertArrayEquals(expectedSecurityOrders, actualSecurityOrders);
   }
 
   @Test
   public void count() {
-    assertEquals(1, securityOrderDao.count());
+    assertEquals(2, securityOrderDao.count());
   }
 
+  @Test
+  public void deleteById() {
+    securityOrderDao.deleteById(1);
+    SecurityOrder[] expectedSecurityOrders = new SecurityOrder[]{secondSecurityOrder};
+    SecurityOrder[] actualSecurityOrders = new SecurityOrder[1];
+    securityOrderDao.findAll().toArray(actualSecurityOrders);
+
+    assertArrayEquals(expectedSecurityOrders, actualSecurityOrders);
+  }
 
   @Test
   public void deleteAll() {
     securityOrderDao.deleteAll();
+
     assertEquals(0, securityOrderDao.count());
   }
 
-  @After
-  public void deleteOne() {
-    securityOrderDao.deleteById(securityOrder.getId());
-    accountDao.deleteById(account.getId());
-    traderDao.deleteById(trader.getId());
-    quoteDao.deleteById(quote.getTicker());
+  @Test
+  public void deleteAllByAccountId() {
+    securityOrderDao.deleteAllByAccountId(1);
+    SecurityOrder[] expectedSecurityOrders = new SecurityOrder[]{secondSecurityOrder};
+    SecurityOrder[] actualSecurityOrders = new SecurityOrder[1];
+    securityOrderDao.findAll().toArray(actualSecurityOrders);
+
+    assertArrayEquals(expectedSecurityOrders, actualSecurityOrders);
+  }
+
+  @Test
+  public void saveAll() {
+    List<SecurityOrder> securityOrders = new ArrayList<>();
+
+    SecurityOrder newSecurityOrder = new SecurityOrder();
+    newSecurityOrder.setAccountId(2);
+    newSecurityOrder.setTicker("aapl");
+    newSecurityOrder.setStatus("FILLED");
+    newSecurityOrder.setSize(6);
+    newSecurityOrder.setPrice(46.23);
+    newSecurityOrder.setNotes("Some other notes");
+    SecurityOrder anotherNewSecurityOrder = new SecurityOrder();
+    anotherNewSecurityOrder.setAccountId(2);
+    anotherNewSecurityOrder.setTicker("aapl");
+    anotherNewSecurityOrder.setStatus("FILLED");
+    anotherNewSecurityOrder.setSize(6);
+    anotherNewSecurityOrder.setPrice(46.23);
+    anotherNewSecurityOrder.setNotes("Some other notes");
+
+    //all new security orders
+    securityOrders.add(newSecurityOrder);
+    securityOrders.add(anotherNewSecurityOrder);
+
+    expectedException.expect(ResourceNotFoundException.class);
+    expectedException.expectMessage("Security order not found");
+    securityOrderDao.saveAll(securityOrders);
+
+    newSecurityOrder.setId(1);
+    anotherNewSecurityOrder.setId(2);
+
+    //all old security orders
+    assertEquals(securityOrders, securityOrderDao.saveAll(securityOrders));
   }
 }

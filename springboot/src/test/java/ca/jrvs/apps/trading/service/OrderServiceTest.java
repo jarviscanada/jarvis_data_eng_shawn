@@ -1,8 +1,9 @@
 package ca.jrvs.apps.trading.service;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import ca.jrvs.apps.trading.dao.AccountDao;
@@ -14,10 +15,14 @@ import ca.jrvs.apps.trading.model.domain.MarketOrderDto;
 import ca.jrvs.apps.trading.model.domain.Position;
 import ca.jrvs.apps.trading.model.domain.Quote;
 import ca.jrvs.apps.trading.model.domain.SecurityOrder;
-import java.util.Optional;
-import org.junit.Before;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -25,83 +30,71 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
 
+  @Rule
+  public ExpectedException expectedException = ExpectedException.none();
   @Mock
-  AccountDao accountDao;
+  private AccountDao accountDao;
   @Mock
-  SecurityOrderDao securityOrderDao;
+  private SecurityOrderDao securityOrderDao;
   @Mock
-  QuoteDao quoteDao;
+  private QuoteDao quoteDao;
   @Mock
-  PositionDao positionDao;
-
+  private PositionDao positionDao;
   @InjectMocks
-  public OrderService orderService;
-
-  private MarketOrderDto marketOrderDto;
-  private Account account;
-  private Quote quote;
-  private Position position;
-  @Before
-  public void setUp() throws Exception {
-    marketOrderDto = new MarketOrderDto();
-    marketOrderDto.setTicker("AAPL");
-    marketOrderDto.setAccountId(2);
-
-    account = new Account();
-    account.setId(2);
-    account.setAmount(0d);
-
-    quote = new Quote();
-    quote.setTicker("AAPL");
-    quote.setBidPrice(100d);
-    quote.setBidSize(50);
-    quote.setAskPrice(120d);
-    quote.setAskSize(70);
-
-    position = new Position();
-    position.setPostion(0);
-    position.setTicker("AAPL");
-    position.setId(2);
-
-    when(quoteDao.findById(anyString())).thenReturn(Optional.of(quote));
-    when(accountDao.findById(anyInt())).thenReturn(Optional.of(account));
-    when(positionDao.getByAccountIdAndTicker(anyInt(), anyString())).thenReturn(Optional.of(position));
-
-  }
+  private OrderService orderService;
 
   @Test
   public void executeMarketOrder() {
-    // Check for invalid order size
-    marketOrderDto.setSize(0);
-    try {
-      orderService.executeMarketOrder(marketOrderDto);
-      fail();
-    } catch (IllegalArgumentException ex) {
-      assertTrue(true);
-    }
+    MarketOrderDto marketOrderDto = new MarketOrderDto();
+    marketOrderDto.setAccountId(1);
+    marketOrderDto.setTicker("AAPL");
+    marketOrderDto.setSize(2);
 
-    // Check for not enough Ammout
-    marketOrderDto.setSize(10);
-    SecurityOrder order = orderService.executeMarketOrder(marketOrderDto);
-    assertEquals("Cancelled", order.getStatus());
+    Quote quote = new Quote();
+    quote.setId("AAPL");
+    quote.setAskPrice(35.0);
+    quote.setBidPrice(30.0);
+    quote.setLastPrice(33.0);
+    quote.setTicker("AAPL");
+    quote.setAskSize(3L);
+    quote.setBidSize(4L);
 
-    // Check buy order
-    marketOrderDto.setSize(20);
-    account.setAmount(2500d);
-    order = orderService.executeMarketOrder(marketOrderDto);
-    assertEquals("Filled", order.getStatus());
+    Account account = new Account();
+    account.setId(1);
+    account.setAmount(100.0);
+    account.setTraderId(1);
 
+    when(quoteDao.existsById(any())).thenReturn(true);
+    when(quoteDao.findById(any())).thenReturn(java.util.Optional.of(quote));
+    when(accountDao.findById(any())).thenReturn(java.util.Optional.of(account));
 
-    // Check for position to sell
-    marketOrderDto.setSize(-50);
-    position.setPostion(10);
-    order = orderService.executeMarketOrder(marketOrderDto);
-    assertEquals("Cancelled", order.getStatus());
+    SecurityOrder expected = new SecurityOrder();
+    expected.setId(1);
+    expected.setAccountId(1);
+    expected.setStatus("FILLED");
+    expected.setPrice(quote.getAskPrice());
+    expected.setSize(2);
+    expected.setTicker("AAPL");
+    when(securityOrderDao.save(any()))
+        .thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
+    SecurityOrder actual = orderService.executeMarketOrder(marketOrderDto);
+    assertEquals(expected.getStatus(), actual.getStatus());
+    assertEquals(expected.getPrice(), actual.getPrice());
+    assertEquals(expected.getSize(), actual.getSize());
 
-    // Check for sell order
-    marketOrderDto.setSize(-100);
-    position.setPostion(210);
-    order = orderService.executeMarketOrder(marketOrderDto);
-    assertEquals("Filled", order.getStatus());
+    marketOrderDto.setSize(-2);
+    Position position = new Position();
+    position.setAccountId(1);
+    position.setTicker("AAPL");
+    position.setPosition(4);
+    List<Position> positions = new ArrayList<>();
+    positions.add(position);
+    when(positionDao.findByIdAndTicker(any(), any())).thenReturn(positions);
+    expected.setPrice(quote.getBidPrice());
+    expected.setSize(-2);
+    actual = orderService.executeMarketOrder(marketOrderDto);
+    assertEquals(expected.getStatus(), actual.getStatus());
+    assertEquals(expected.getPrice(), actual.getPrice());
+    assertEquals(expected.getSize(), actual.getSize());
   }
 }
