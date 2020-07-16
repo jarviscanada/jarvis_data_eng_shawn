@@ -2,7 +2,7 @@
 
 # Shawn(Xinyu) Wang . Jarvis Consulting
 I recently graduated from Carleton University with a Bachelor's Degree in Electrical and Computer Engineering. 
-After I graduate, I Choose to move my career path more towards the software side.
+After I graduate, I choose to move my career path more towards the software side.
 I am passionate about learning new stuff as well as applying new skills.
 Over the last year, I have done several projects related to computer programming.
 Throughout my education and my varied project experiences, I am starting to build up a wide knowledge base and learning how to quickly adapt to new concepts, which I believe makes me invulnerable in the software engineering.
