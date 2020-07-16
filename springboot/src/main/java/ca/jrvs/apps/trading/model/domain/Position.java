@@ -1,0 +1,35 @@
+package ca.jrvs.apps.trading.model.domain;
+
+import java.util.PrimitiveIterator;
+
+public class Position implements Entity<Integer> {
+  private Integer accountId;
+  private String ticker;
+  private Integer position;
+
+  @Override
+  public Integer getId() {
+    return accountId;
+  }
+
+  @Override
+  public void setId(Integer id) {
+    this.accountId = id;
+  }
+
+  public String getTicker() {
+    return ticker;
+  }
+
+  public void setTicker(String ticker) {
+    this.ticker = ticker;
+  }
+
+  public Integer getPosition() {
+    return position;
+  }
+
+  public void setPostion(Integer position) {
+    this.position = position;
+  }
+}
