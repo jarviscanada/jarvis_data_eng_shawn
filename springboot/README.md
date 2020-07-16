@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Table of contents
 * [Introduction](#Introduction)
 * [Quick Start](#Quick-Start)
@@ -265,11 +264,12 @@ table. Its endpoints are briefly described below:
 market buy or sell order.
 
 # Docker Deployment
-- docker diagram including images, containers, network, and docker hub
-e.g. https://www.notion.so/jarviscanada/Dockerize-Trading-App-fc8c8f4167ad46089099fd0d31e3855d#6f8912f9438e4e61b91fe57f8ef896e0
-- describe each image in details (e.g. how psql initialize tables)
+This diagram shows how Docker is used with this application![docker application](/springboot/assets/Trading_App_Docker_Arch.jpg)
+- The Jarvis Trading REST App can be dockerized for fast and easy deployment. For this purpose, two Dockerfiles have been created - one for building docker image of the trading application and the other for that of the underlying PostgreSQL database. To make this application run, it is necessary for both of these containers to communicate, the trading network is created. To assemble the images of psql, base image from dockerhub is used and other scripts that  initialise the database. Similarly, to assemble the image of application, used base image of jdk and maven and run my own scripts to package up the application.
 
 # Improvements
-If you have more time, what would you improve?
-- at least 5 improvements
->>>>>>> a6232bfe1979a2c1d661a56a032e114df9adc1e0
+- Provide API access for more order types, such as stop and limit orders.
+- Increased documentation and code comments.
+- Add authentication for security purpose.
+- Add dashboard controller.
+- Add a cron job to update the quote database from IEX cloud automaticly.
