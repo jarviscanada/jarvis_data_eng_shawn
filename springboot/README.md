@@ -70,6 +70,7 @@ The following page will be shown:
 ![Swagger application](/springboot/assets/swagger.jpg)
 
 # Architecture
+Each components of the Jarvis Trading REST App:  
 ![Architecture](/springboot/assets/trading_app_Arch.jpg)
 
 **Controller Layer**: It receives the HTTP request and servlet will map the request to the method in the controller, and the controller is responsible for invoking the corresponding method in the service layer. This application has 4 controllers.    
@@ -127,7 +128,8 @@ table. Its endpoints are briefly described below:
 market buy or sell order.
 
 # Docker Deployment
-This diagram shows how Docker is used with this application![docker application](/springboot/assets/Trading_App_Docker_Arch.jpg)
+This diagram shows how Docker is used with this application:  
+![docker application](/springboot/assets/Trading_App_Docker_Arch.jpg)
 - The Jarvis Trading REST App can be dockerized for fast and easy deployment. For this purpose, two Dockerfiles have been created - one for building docker image of the trading application and the other for that of the underlying PostgreSQL database. To make this application run, it is necessary for both of these containers to communicate, the trading network is created. To assemble the images of psql, base image from dockerhub is used and other scripts that  initialise the database. Similarly, to assemble the image of application, used base image of jdk and maven and run my own scripts to package up the application.
 
 # Improvements
