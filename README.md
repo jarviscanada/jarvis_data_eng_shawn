@@ -2,11 +2,11 @@
 
 # Shawn(Xinyu) Wang . Jarvis Consulting
 I recently graduated from Carleton University with a Bachelor's Degree in Electrical and Computer Engineering. 
-After I graduate, I choose to move my career path more towards the software side.
-I am passionate about learning new stuff as well as applying new skills.
+After I graduated, I chose to move towards the software side mostly.
+I am passionate about learning new technologies as well as applying new skills.
 Over the last year, I have done several projects related to computer programming.
-Throughout my education and my varied project experiences, I am starting to build up a wide knowledge base and learning how to quickly adapt to new concepts, which I believe makes me invulnerable in the software engineering.
-For leisure time, I like to play competitive video games with friends which can make me feel energize and improve my ability of instant reaction.
+Throughout my education and my varied project experiences, I am starting to build up a wide knowledge base and learning how to quickly adapt to new concepts, which I believe makes me more confident in software engineering.
+During my leisure, I like to play competitive video games with friends which make me feel energized and improve my ability of instant reaction.
 Overall, I am excited to pursue a career as a software developer and further develop my skill sets.
 
 ## Technical Acumen
@@ -50,7 +50,7 @@ Dockerized the application.
 
 **Associate Data Engineer, Jarvis, Toronto (2020-Present):**  
 Acquired the technical skills required for a Junior data engineer. Adapted to an agile working environment and agile software development to ensure team cohesion, collaboration, and overall success.
-Worked on big data projects which involve the latest technologies, such as Java, Spring, Cloud platforms, Hadoop, Spark, Linux, Postgresql, etc.
+Worked on big data projects which involved the latest technologies, such as Java, Spring, Cloud platforms, Hadoop, Spark, Linux, Postgresql, etc.
 
 **Coop, Zhejiang Lida Modern Textile Company, China (2019-2019):**   
 Designed and created a quality assurance system for a factory to enable accurate detection of defects, using real-time object detection through Open CV and deep learning based on Linux system. 
@@ -66,7 +66,7 @@ Utilized machine learning framework and TensorFlow to create computer vision and
 Created an auto water refill system through a Wi-Fi network for cats. Created an object detection system by using the Google Cloud Vision. 
 Applied Arduino and C++ knowledge and utilizing the MQTT data transfer protocol to send a signal to control the 5v water valve for water refilling.
 Applied raspberry pi and python knowledge and TCP/IP protocol to send data to google cloud vision to detect empty food and water and send an email back to host account with picture for the status check.
-Achieved a home automation system by using knowledge of the IoT system. Customers can send back an email with signals, the pet will never worry about the water and food supply.
+Achieved a home automation system by using knowledge of the IoT system. Customers can send back an email with signals, the pet will never worry about water and food supply.
 
 - **Raspberry Pi RFID Attendance System Construction:**   
 Utilized Raspberry Pi and the RC522 RFID chip to build an attendance system with an LCD screen and database.
