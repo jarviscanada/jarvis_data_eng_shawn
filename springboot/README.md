@@ -70,7 +70,7 @@ The following page will be shown:
 ![Swagger application](/springboot/assets/swagger.jpg)
 
 # Architecture
-- Draw a component diagram which contains controllers, services, DAOs, psql, IEX Cloud, WebServlet/Tomcat, HTTP client, and SpringBoot.  
+![Architecture](/springboot/assets/trading_app_Arch.jpg)
 
 **Controller Layer**: It receives the HTTP request and servlet will map the request to the method in the controller, and the controller is responsible for invoking the corresponding method in the service layer. This application has 4 controllers.    
 
