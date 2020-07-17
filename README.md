@@ -13,7 +13,7 @@ Overall, I am excited to pursue a career as a software developer and further dev
 
 **Proficient:** Java, Linux/Bash, RDBMS/SQL, Agile/Scrum, Git, C, Raspberry PI
 
-**Competent:** Springboot, Mockito, Java Lambda & Stream APIs, Junit, Python, C++. MATLAB, Embedded System
+**Competent:** Python, Springboot, Mockito, Java Lambda & Stream APIs, Junit, C++. MATLAB, Embedded System
 
 **Familiar:** Google Cloud Platform, TensorFlow, OpenCV, Machine Learning
 
