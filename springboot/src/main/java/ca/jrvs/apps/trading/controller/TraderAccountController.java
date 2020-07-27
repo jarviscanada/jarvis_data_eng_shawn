@@ -44,16 +44,16 @@ public class TraderAccountController {
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   @PostMapping(
-      path = "/firstname/{firstname}/lastname/{lastname}/dob/{dob}/country/{country}/email/{email}",
+      path = "/firstName/{firstName}/lastName/{lastName}/dob/{dob}/country/{country}/email/{email}",
       produces = {MediaType.APPLICATION_JSON_UTF8_VALUE}
   )
-  public TraderAccountView createTrader(@PathVariable String firstname,
-      @PathVariable String lastname, @PathVariable@DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate dob,
+  public TraderAccountView createTrader(@PathVariable String firstName,
+      @PathVariable String lastName, @PathVariable@DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate dob,
       @PathVariable String country, @PathVariable String email){
     try{
       Trader trader = new Trader();
-      trader.setFirst_name(firstname);
-      trader.setLast_name(lastname);
+      trader.setFirst_name(firstName);
+      trader.setLast_name(lastName);
       trader.setCountry(country);
       trader.setEmail(email);
       trader.setDob(Date.valueOf(dob));
