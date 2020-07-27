@@ -97,7 +97,7 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
       try {
         quote = mapper.readValue(quoteString, IexQuote.class);
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new IllegalArgumentException("wrong input");
       }
       quotes.add(quote);
     }
@@ -127,7 +127,7 @@ public class MarketDataDao implements CrudRepository<IexQuote, String> {
   }
 
   /**
-   * Borrow a Http client form httpClientConnectionManager
+   * Borrow a Http client from httpClientConnectionManager
    * @return httpClient
    */
   private CloseableHttpClient getHttpClient(){
