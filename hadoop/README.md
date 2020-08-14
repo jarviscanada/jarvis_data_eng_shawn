@@ -1,10 +1,10 @@
 Table of contents
 * [Introduction](#introduction)
 * [Hadoop Cluster](#hadoop-cluster)
-	- [Hadoop Framework](#hadoop-framework)
-	- [HDFS](#hdfs-the-storage-layer-of-hadoop)
-	- [MapReduce](#mapreduce-the-data-processing-layer-of-hadoop)
-	- [YARN](#yarn-the-resource-management-layer-of-hadoop)
+	- [HDFS](#hdfs)
+	- [Hive](#hive)
+	- [YARN](#yarn)
+	- [MapReduce](#map-reduce)
 * [Hive Project](#hive-project)
 * [Future Improvements](#future-improvements)
 
@@ -17,19 +17,36 @@ They are managed by YARN and user can connect to Hive Server by either CLI(beeli
 In this project, Zeppelin is mainly used, and there is a json file, which can be imported as a Zeppelin Notebook, under hive folder in this project. 
 Basically, in the notebook, the data from Google storage is written to HDFS with a correct format and 2 optimizations are done 
 to further increase the performance of the HiveQL queries.
-# Hadoop Cluster
-- cluster architecture diagram
-  - 1 master and 2 workers nodes
-  - HDFS, YARN, Zeppelin, Hive (hive Server, hive metastore, RDBMS), etc.
-- Big data tools you evaluated (e.g. MapReuce, YARN, HDFS, Hive, Zeppelin, etc..)
-- hardware specifications
+ # Hadoop Cluster
+![Architecture](/hadoop/assets/architecture.png)
+ ## HDFS
+ The Hadoop Distributed File System (HDFS) is the primary data storage system used by Hadoop applications. It employs a NameNode and DataNode architecture to implement a distributed file system that provides high-performance access to data across highly scalable Hadoop clusters.   
+ ### NameNode (The Master Node)
+ It is the master daemon that maintains and manages the DataNodes (slave nodes). It records the metadata of all the files stored in the cluster, e.g. The location of blocks stored, the size of the files, permissions, hierarchy, etc. 
+ ### DataNode (The Worker Node)
+DataNodes are the slave nodes in HDFS.The actual data is stored on DataNodes and send it to resource manager.
+## **Hive**
+Hive is an ETL and Data warehousing tool developed on top of Hadoop Distributed File System (HDFS). Hive makes job easy for performing operations like Data Encapsulation, Ad-hoc queries and analysis on huge datasets. For connecting with hive, it can be done through CLI using beeline and or by zepelline.
+### CLI(Beeline)
+Hive Beeline is a CLI tool which allows user to connect to a Hive instance via JDBC. It is installed along hive. 
+### Zeppelin
+At times, it becomes difficult to manage run large number of queries. Hence, zeppeline provides a clean User interface for executing queries.
+## **YARN** 
+(Yet Another Resource Negotiator),Apache Hadoop YARN is the resource management and job scheduling technology in the open source Hadoop distributed processing framework.  
+### Resource Manager 
+It runs on master node. It manages and assigns resources to different jobs.  
+###  Node Manager 
+It runs on worker node. It gather resources usage information and send it to resource manager. 
+## **Map Reduce**
+MapReduce is a framework using which we can write applications to process huge amounts of data, in parallel, on large clusters of commodity hardware in a reliable manner.
+### Map Phase
+This phase applies business logic to the data. The input data gets converted into key-value pairs based on the user-defined functions(mapper). This part is done by the data nodes. They will gather and process data based on the given bussiness logic. The output key-value pair will be sent to the reducer located at name node.
+### Reduce Phase
+The Reduce phase takes the output of Map Phase as input. It applies aggregation based on the requirements. Then, the output of this reducer located at name node will be the final result
 
 # Hive Project
-- discuss the purposes of the project and what you have done.
-- Post your Zeppelin Notebook screenshot here
-	- Make sure your Notebook is nice and clean as hiring managers will visit your project
-	- use `Full Page Screen Capture` chrome extention to capture a webpage as a picture
-
+In this project, there are mainly three parts: loading data into HDFS, optimization of queries and comparison of performance between hive and spark. Each part is described in the screenshot below along with the code and output. Overall, the basic operations are studied as well as the more advanced optimization.
+![Diagram](./assets/Zeppelin.png)  
 # Improvements
 If you have more time, what would you improve?
 - at least three improvements
