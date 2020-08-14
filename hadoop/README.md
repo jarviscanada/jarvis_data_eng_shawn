@@ -6,7 +6,7 @@ Table of contents
 	- [YARN](#yarn)
 	- [MapReduce](#map-reduce)
 * [Hive Project](#hive-project)
-* [Future Improvements](#future-improvements)
+* [Future Improvements](#Improvements)
 
 # Introduction
 - The purpose of this project is to build a big data platform and evaluate core Hadoop components, including MapReduce, HDFS, and YARN. 
