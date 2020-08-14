@@ -48,5 +48,6 @@ The Reduce phase takes the output of Map Phase as input. It applies aggregation 
 In this project, there are mainly three parts: loading data into HDFS, optimization of queries and comparison of performance between hive and spark. Each part is described in the screenshot below along with the code and output. Overall, the basic operations are studied as well as the more advanced optimization.
 ![Diagram](./assets/Zeppelin.png)  
 # Improvements
-If you have more time, what would you improve?
-- at least three improvements
+1. More comparisons can be done between columnar file formats with parquets format by using spark and hive.
+2. Perfomances can be compared for both columnar format approach and spark approach.
+3. Project can be extended by manipulating data more and making more comparisons even with two tables.
