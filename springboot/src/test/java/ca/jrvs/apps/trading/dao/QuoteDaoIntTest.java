@@ -4,10 +4,11 @@ import static org.junit.Assert.*;
 
 import ca.jrvs.apps.trading.TestConfig;
 import ca.jrvs.apps.trading.model.domain.Quote;
-import com.sun.org.apache.xpath.internal.operations.Quo;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,79 +18,119 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes={TestConfig.class})
+@SpringBootTest(classes = {TestConfig.class})
 @Sql({"classpath:schema.sql"})
-
 public class QuoteDaoIntTest {
 
   @Autowired
-  private  QuoteDao quoteDao;
-  private Quote savedQuote1;
-  private Quote savedQuote2;
+  private QuoteDao quoteDao;
+
+  private Quote savedQuote;
 
   @Before
-  public void insertTwo() {
-    savedQuote1 = new Quote();
-    savedQuote1.setAskPrice(5d);
-    savedQuote1.setAskSize(5);
-    savedQuote1.setBidPrice(5.9d);
-    savedQuote1.setBidSize(5);
-    savedQuote1.setTicker("MMM");
-    savedQuote1.setLastPrice(5.5d);
-    quoteDao.save(savedQuote1);
-
-    savedQuote2 = new Quote();
-    savedQuote2.setAskPrice(4d);
-    savedQuote2.setAskSize(4);
-    savedQuote2.setBidPrice(4.9d);
-    savedQuote2.setBidSize(4);
-    savedQuote2.setTicker("AAPL");
-    savedQuote2.setLastPrice(4.5d);
-    quoteDao.save(savedQuote2);
+  public void insertion(){
+    savedQuote = new Quote();
+    insertOne();
+    insertTwo();
   }
 
+  public void insertOne(){
+    savedQuote.setAskPrice(10d);
+    savedQuote.setAskSize(10);
+    savedQuote.setBidPrice(10.2d);
+    savedQuote.setBidSize(10);
+    savedQuote.setId("SDG");
+    savedQuote.setLastPrice(10.1d);
+    quoteDao.save(savedQuote);
+  }
+
+  public void insertTwo(){
+    List<Quote> quotes = new ArrayList<>();
+    Quote quote1 = new Quote();
+    quote1.setAskPrice(9d);
+    quote1.setAskSize(9);
+    quote1.setBidPrice(9.2d);
+    quote1.setBidSize(9);
+    quote1.setId("jrvs");
+    quote1.setLastPrice(9.1d);
+    quotes.add(quote1);
+    Quote quote2 = new Quote();
+    quote2.setAskPrice(11d);
+    quote2.setAskSize(11);
+    quote2.setBidPrice(11.2d);
+    quote2.setBidSize(11);
+    quote2.setId("jar");
+    quote2.setLastPrice(11.1d);
+    quotes.add(quote2);
+    quoteDao.saveAll(quotes);
+  }
 
   @Test
-  public void findById() {
-    String ticker = savedQuote1.getTicker();
+  public void findById(){
+    String ticker = savedQuote.getId();
     Optional<Quote> quote = quoteDao.findById(ticker);
-    assertEquals(quote.get().getAskPrice(), savedQuote1.getAskPrice());
-    assertEquals(quote.get().getAskSize(), savedQuote1.getAskSize());
-    assertEquals(quote.get().getBidPrice(), savedQuote1.getBidPrice());
-    assertEquals(quote.get().getBidSize(), savedQuote1.getBidSize());
-    assertEquals(quote.get().getTicker(), savedQuote1.getTicker());
-    assertEquals(quote.get().getLastPrice(), savedQuote1.getLastPrice());
+    assertEquals(quote.get().getAskPrice(), savedQuote.getAskPrice());
+    assertEquals(quote.get().getAskSize(), savedQuote.getAskSize());
+    assertEquals(quote.get().getBidPrice(), savedQuote.getBidPrice());
+    assertEquals(quote.get().getBidSize(), savedQuote.getBidSize());
+    assertEquals(quote.get().getId(), savedQuote.getId());
+    assertEquals(quote.get().getLastPrice(), savedQuote.getLastPrice());
   }
 
   @Test
-  public void existsById() {
-    assertTrue(quoteDao.existsById(savedQuote1.getTicker()));
-    assertFalse(quoteDao.existsById("asasas"));
+  public void findAll(){
+    String ticker = savedQuote.getId();
+    List<Quote> quotes = quoteDao.findAll();
+    assertEquals(quotes.get(0).getAskPrice(), savedQuote.getAskPrice());
+    assertEquals(quotes.get(0).getAskSize(), savedQuote.getAskSize());
+    assertEquals(quotes.get(0).getBidPrice(), savedQuote.getBidPrice());
+    assertEquals(quotes.get(0).getBidSize(), savedQuote.getBidSize());
+    assertEquals(quotes.get(0).getId(), savedQuote.getId());
+    assertEquals(quotes.get(0).getLastPrice(), savedQuote.getLastPrice());
   }
 
   @Test
-  public void findAll() {
-    List<Quote> quotes = (List<Quote>) quoteDao.findAll();
-    assertEquals(quotes.get(0).getAskPrice(),savedQuote1.getAskPrice());
-    assertEquals(quotes.get(0).getAskSize(), savedQuote1.getAskSize());
-    assertEquals(quotes.get(0).getBidPrice(),savedQuote1.getBidPrice(),0.001);
-    assertEquals(quotes.get(0).getBidSize(), savedQuote1.getBidSize());
-    assertEquals(quotes.get(0).getTicker(), savedQuote1.getTicker());
-    assertEquals(quotes.get(0).getLastPrice(), savedQuote1.getLastPrice());
+  public void existById(){
+    assertTrue(quoteDao.existsById(savedQuote.getId()));
+    assertFalse(quoteDao.existsById("AAAA"));
   }
 
   @Test
   public void count(){
-    assertEquals(2,quoteDao.count());
+    assertEquals(3, quoteDao.count());
   }
 
+  @Test
+  public void unimplemented(){
+    try{
+      quoteDao.delete(savedQuote);
+    } catch (UnsupportedOperationException e){
+      assertTrue(true);
+    }
+    try{
+      quoteDao.deleteAll(new ArrayList<Quote>());
+    } catch (UnsupportedOperationException e){
+      assertTrue(true);
+    }
+    try{
+      quoteDao.findAllById(new ArrayList<String>());
+    } catch (UnsupportedOperationException e){
+      assertTrue(true);
+    }
+  }
 
   @After
-  public void delete()  {
-    quoteDao.deleteById(savedQuote1.getTicker());
-    assertEquals(1, quoteDao.count());
-    quoteDao.deleteById(savedQuote2.getTicker());
-    assertEquals(0,quoteDao.count());
+  public void deletion(){
+    quoteDao.deleteById(savedQuote.getId());
+    assertEquals(2, quoteDao.count());
+    quoteDao.deleteAll();
+    assertEquals(0, quoteDao.count());
+    try{
+      quoteDao.existsById("AAPL");
+    } catch (NullPointerException e) {
+      assertTrue(true);
+    } catch (Exception e){
+      Assert.fail();
+    }
   }
-
 }

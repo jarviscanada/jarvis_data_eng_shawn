@@ -1,20 +1,17 @@
 package ca.jrvs.apps.trading.model.domain;
 
-import java.util.PrimitiveIterator;
+public class Position implements Entity<Integer>{
 
-public class Position implements Entity<Integer> {
   private Integer accountId;
   private String ticker;
   private Integer position;
 
-  @Override
-  public Integer getId() {
+  public Integer getAccountId() {
     return accountId;
   }
 
-  @Override
-  public void setId(Integer id) {
-    this.accountId = id;
+  public void setAccountId(Integer accountId) {
+    this.accountId = accountId;
   }
 
   public String getTicker() {
@@ -29,7 +26,17 @@ public class Position implements Entity<Integer> {
     return position;
   }
 
-  public void setPostion(Integer position) {
+  public void setPosition(Integer position) {
     this.position = position;
+  }
+
+  @Override
+  public Integer getId() {
+    return accountId;
+  }
+
+  @Override
+  public void setId(Integer account_id) {
+    this.accountId = account_id;
   }
 }

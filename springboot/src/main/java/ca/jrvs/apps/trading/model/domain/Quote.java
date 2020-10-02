@@ -1,12 +1,10 @@
 package ca.jrvs.apps.trading.model.domain;
 
-import org.hibernate.procedure.spi.ParameterRegistrationImplementor;
-
-public class Quote<ID> implements Entity<String> {
+public class Quote implements Entity<String>{
 
   private String ticker;
   private Double lastPrice;
-  private double bidPrice;
+  private Double bidPrice;
   private Integer bidSize;
   private Double askPrice;
   private Integer askSize;
@@ -17,8 +15,8 @@ public class Quote<ID> implements Entity<String> {
   }
 
   @Override
-  public void setId(String s) {
-    this.ticker = s;
+  public void setId(String ticker) {
+    this.ticker = ticker;
   }
 
   public String getTicker() {
@@ -37,11 +35,11 @@ public class Quote<ID> implements Entity<String> {
     this.lastPrice = lastPrice;
   }
 
-  public double getBidPrice() {
+  public Double getBidPrice() {
     return bidPrice;
   }
 
-  public void setBidPrice(double bidPrice) {
+  public void setBidPrice(Double bidPrice) {
     this.bidPrice = bidPrice;
   }
 

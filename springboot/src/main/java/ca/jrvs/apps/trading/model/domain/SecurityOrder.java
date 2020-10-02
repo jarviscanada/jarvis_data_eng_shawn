@@ -1,6 +1,8 @@
 package ca.jrvs.apps.trading.model.domain;
 
 public class SecurityOrder implements Entity<Integer>{
+
+  private Integer id;
   private Integer accountId;
   private String status;
   private String ticker;
@@ -8,12 +10,12 @@ public class SecurityOrder implements Entity<Integer>{
   private Double price;
   private String notes;
 
-  private Integer id;
-
+  @Override
   public Integer getId() {
     return id;
   }
 
+  @Override
   public void setId(Integer id) {
     this.id = id;
   }
@@ -65,5 +67,4 @@ public class SecurityOrder implements Entity<Integer>{
   public void setNotes(String notes) {
     this.notes = notes;
   }
-
 }

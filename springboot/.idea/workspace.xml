@@ -30,13 +30,51 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="98d02d59-3d15-40b0-8ddb-ed19bec553ee" name="Default Changelist" comment="">
+    <list default="true" id="60c7b042-b43a-4dfd-b0fd-4bc372311836" name="Default Changelist" comment="Merge branch 'master' into release&#10;&#10;Conflicts:&#10;&#9;springboot/README.md">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/Trading_App_Docker_Arch.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/swagger.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/trading_app_Arch.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/psql/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/psql/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/AppConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/SwaggerConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/controller/OrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/controller/QuoteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/controller/QuoteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/controller/ResponseExceptionUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/controller/ResponseExceptionUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/controller/TraderAccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/controller/TraderAccountController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/AccountDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/AccountDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/JdbcCrudDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/JdbcCrudDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/MarketDataDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/MarketDataDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/PositionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/PositionDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/QuoteDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/QuoteDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/SecurityOrderDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/SecurityOrderDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/TraderDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/dao/TraderDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/config/MarketDataConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/config/MarketDataConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/IexQuote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/IexQuote.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/MarketOrderDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/MarketOrderDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/Position.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/Quote.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/Quote.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/SecurityOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/SecurityOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/Trader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/domain/Trader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/view/TraderAccountView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/model/view/TraderAccountView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/service/OrderService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/service/QuoteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/service/QuoteService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/service/OrderServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/service/OrderServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/service/TraderAccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ca/jrvs/apps/trading/service/TraderAccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/TestConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/TestConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/dao/AccountDaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/dao/MarketDataDaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/dao/QuoteDaoIntTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/dao/QuoteDaoIntTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/dao/SecurityOrderDaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/dao/TraderDaoTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/service/OrderServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/service/QuoteServiceIntTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/service/QuoteServiceIntTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ca/jrvs/apps/trading/service/TraderAccountServiceTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,6 +162,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JUnit.OrderServiceTest" />
+      <item itemvalue="JUnit.OrderServiceTest.executeMarketOrder" />
+      <item itemvalue="JUnit.QuoteServiceIntTest" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.QuoteServiceIntTest" />
@@ -137,7 +180,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="98d02d59-3d15-40b0-8ddb-ed19bec553ee" name="Default Changelist" comment="" />
+      <changelist id="60c7b042-b43a-4dfd-b0fd-4bc372311836" name="Default Changelist" comment="Merge branch 'master' into release&#10;&#10;Conflicts:&#10;&#9;springboot/README.md" />
       <created>1593527206133</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -155,6 +198,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="449" y="218" width="380" height="628" key="#com.intellij.ide.util.MemberChooser" timestamp="1594320305324">
@@ -201,10 +245,5 @@
       <screen x="0" y="31" width="1920" height="1000" />
     </state>
     <state x="396" y="321" width="490" height="422" key="git4idea.merge.GitMergeDialog/0.31.1920.1000@0.31.1920.1000" timestamp="1594305575568" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/springboot$OrderServiceTest_executeMarketOrder.ic" NAME="OrderServiceTest.executeMarketOrder Coverage Results" MODIFIED="1594324356430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>ca.jrvs.apps.trading.service.*</FILTER>
-    </SUITE>
   </component>
 </project>
