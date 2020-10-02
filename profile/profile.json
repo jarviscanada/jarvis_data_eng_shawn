@@ -1,0 +1,116 @@
+{
+  "education": [
+    {
+      "awards_achievements": null,
+      "degree": "Bachelor of Engineering, Electrical Engineering",
+      "department": "Electrical and Computer Engineering",
+      "duration": "2014-2019",
+      "school_name": "Carleton university"
+    }
+  ],
+  "github_repo_root_url": "https://github.com/jarviscanada/jarvis_data_eng_shawn",
+  "highlighted_projects": [
+    {
+      "description": "Created an auto water refill system through a Wi-Fi network for cats. Created an object detection system by using the Google Cloud Vision. Applied Arduino and C++ knowledge and utilizing the MQTT data transfer protocol to send a signal to control the 5v water valve for water refilling. Applied raspberry pi and python knowledge and TCP/IP protocol to send data to google cloud vision to detect empty food and water and send an email back to host account with picture for the status check. Achieved a home automation system by using knowledge of IoT system. Customers can send back an email with signals, the pet will never worry about the water and food supply.",
+      "git_url": null,
+      "name": "Raspberry Pi auto water refill system with GCP utilization and ESP8266 chip"
+    },
+    {
+      "description": "Utilized Raspberry Pi and the RC522 RFID chip to build an attendance system with an LCD screen and database. Completed programming using Python in Linux Environment with an Adafruit LCD display. Using SPI protocol to ensure RC522 chip was able to read RFID cards and correct wiring. Prepared and set up the MySQL database to complete each person information. Achieved a working attendance system with an RFID card with the host database check for better security.",
+      "git_url": null,
+      "name": "Raspberry Pi RFID Attendance System Construction"
+    },
+    {
+      "description": "Designed and created a quality assurance system for a factory to enable accurate detection of defects, using realtime object detection through Open CV and deep learning. Utilized machine learning framework TensorFlow to create computer vision and neural networks. Achieved workable frame rate detection by using the Convolutional Neural Networks (fast CNN) method. Demonstrated understanding of applications for various libraries in Python programming such as NumPy, OpenCV, and Matplotlib. Compared designed model to real-time images captured by factory camera, using Linux, Python, and virtual software to compile information.",
+      "git_url": null,
+      "name": "Real-Time Object Detection Using Computer Vision \u0026 Neural Network"
+    }
+  ],
+  "jarvis_projects": [
+    {
+      "description": "Developed a cluster monitoring bash agent that records hardware specifications and monitors resource usage(per minute) of all nodes in a cluster. Provisioned PostgreSQL database in nodes to store information of all nodes with the help of the bash agent installed in all of them. Utilized cron job to schedule the collection of resource usage information every minute. Coded SQL queries to generate reports for some business questions.",
+      "git_url": "/linux_sql",
+      "name": "Cluster Monitor"
+    },
+    {
+      "description": [
+        "Twitter App: Designed a Java8 based application called TwitterCLI which helps users create, read, and delete posts on Twitter using Twitter Rest API. Implemented four versions of the TwitterCLI application - basic Java version, Spring Beans version, Spring Component Scan version, and Springboot version. Wrote Unit Tests and Integration Tests for the applications using JUnit4 and Mockito.",
+        "JDBC App: Developed a JDBC-based application that allows users to perform basic CRUD operations on a PostgreSQL database using DAO pattern.",
+        "Grep App:Designed a Java8 based application called JavaGrep that searches all files in a directory recursively for a user-provided regular expression. Implemented method that contain those expressions and sent into a new file."
+      ],
+      "git_url": "/core_java",
+      "name": "Core Java Apps"
+    },
+    {
+      "description": "Implemented Java8 and Springboot based REST API of a trading platform that uses IEX Cloud as a data source and PostgreSQL to persist data. Used a three-tier microservice architecture to implement it. Made use of Spring DAO to handle data access in PostgreSQL. Wrote unit and integration test using JUnit4 and Mockito. Dockerized the application.",
+      "git_url": "/springboot",
+      "name": "Springboot App"
+    },
+    {
+      "description": "Builded a big data platform and evaluate core Hadoop components, including MapReduce, HDFS, and YARN. In this project, Google Cloud Platform is used to build a hadoop cluster with 1 master node and 2 worker node. They are managed by YARN and user can connect to Hive Server by either CLI(beeline) through SSH or Zeppelin Notebook through browser. In this project, Zeppelin is mainly used, and there is a json file, which can be imported as a Zeppelin Notebook, under hive folder in this project.",
+      "git_url": "/hadoop",
+      "name": "Hadoop"
+    },
+    {
+      "description": "working on it right now",
+      "git_url": "/spark",
+      "name": "Spark"
+    },
+    {
+      "description": "working on it right now",
+      "git_url": "/cloud_devops",
+      "name": "Cloud/DevOps"
+    }
+  ],
+  "name": "Shawn Wang",
+  "others": [
+    {
+      "bullets": [
+        "Competitive gaming"
+      ],
+      "title": "Activities/Hobbies"
+    }
+  ],
+  "professional_experience": [
+    {
+      "company": "Jarvis",
+      "description": "Acquired the technical skills required for a Junior data engineer. Adapted to an agile working environment and agile software development to ensure team cohesion, collaboration, and overall success. Worked on big data projects which involves the latest technologies, such as Java, Spring, Cloud platforms, Hadoop, Spark, Linux, Postgresql, etc.",
+      "duration": "2020-present",
+      "title": "Software Developer"
+    },
+    {
+      "company": "Zhejiang Lida Modern Textile Company, China",
+      "description": "Designed and created a quality assurance system for a factory to enable accurate detection on defects, using real-time object detection through Open CV and deep learning based on Linux system. Utilized machine learning framework and TensorFlow to create computer vision and neural networks using camera.",
+      "duration": "2019",
+      "title": "Coop Engineer"
+    }
+  ],
+  "skills": {
+    "competent": [
+      "Springboot",
+      "Hadoop",
+      "Mockito",
+      "Java Lambda \u0026 Stream APIs",
+      "Junit",
+      "MATLAB",
+      "Embedded System"
+    ],
+    "familiar": [
+      "Python",
+      "Google Cloud Platform",
+      "C++",
+      "AWS",
+      "RTOS"
+    ],
+    "proficient": [
+      "Java",
+      "Linux/Bash",
+      "RDBMS/SQL",
+      "Agile/Scrum",
+      "Git",
+      "C",
+      "Raspberry PI"
+    ]
+  },
+  "summary": "I recently graduated from Carleton University with a Bachelor Degree in Electrical Engineering. After I graduate, I choose to move my career path more towards the software side. I am passionate about learning new stuff as well as applying new skills. Over the last year, I have done several projects that related to computer programming. Throughout my education and my varied project experiences, I am starting to build up a wide knowledge base and learning how to quickly adapt to new concepts, which I believe makes me invulnerable in the Data Engineering industry. For leisure time, I like to play competitive video games with friends which can make me feel energize and improve my ability of instance reaction. Overall, I am excited to pursue a career as a software developer and further develop my skill sets."
+}
