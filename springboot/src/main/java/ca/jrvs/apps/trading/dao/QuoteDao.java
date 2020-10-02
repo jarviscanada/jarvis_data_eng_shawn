@@ -8,8 +8,9 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -18,7 +19,6 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
 
 @Repository
 public class QuoteDao implements CrudRepository<Quote, String> {
@@ -31,24 +31,17 @@ public class QuoteDao implements CrudRepository<Quote, String> {
   private SimpleJdbcInsert simpleJdbcInsert;
 
   @Autowired
-  public QuoteDao(DataSource dataSource) {
-    JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-    SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName(TABLE_NAME);
+  public QuoteDao(DataSource dataSource){
+    setJdbcTemplate(new JdbcTemplate(dataSource));
+    setSimpleJdbcInsert(new SimpleJdbcInsert(dataSource).withTableName(TABLE_NAME));
   }
 
-  /**
-   * Saves a given entity. Use the returned instance for further operations as the save operation
-   * might have changed the entity instance completely.
-   *
-   * @param quote must not be {@literal null}.
-   * @return the saved entity will never be {@literal null}.
-   */
   @Override
   public Quote save(Quote quote) {
-    if (existsById(quote.getTicker())) {
-      int updateRowNum = updateTicker(quote);
-      if (updateRowNum != 1) {
-        throw new DataRetrievalFailureException("fail to update quote");
+    if (existsById(quote.getTicker())){
+      int updateRowNum = updateOne(quote);
+      if (updateRowNum != 1){
+        throw new DataRetrievalFailureException("Unable to update quote.");
       }
     } else {
       addOne(quote);
@@ -56,174 +49,130 @@ public class QuoteDao implements CrudRepository<Quote, String> {
     return quote;
   }
 
-  private void addOne(Quote quote) {
+  private void addOne(Quote quote){
     SqlParameterSource parameterSource = new BeanPropertySqlParameterSource(quote);
-    int rowNum = simpleJdbcInsert.execute(parameterSource);
-    if (rowNum != 1) {
-      throw new IncorrectResultSizeDataAccessException("fail to insert", 1, rowNum);
+    int rowNo = getSimpleJdbcInsert().execute(parameterSource);
+    if (rowNo != 1) {
+      throw new IncorrectResultSizeDataAccessException("Failed to insert", 1, rowNo);
     }
   }
 
-  /**
-   * Saves all given entities.
-   *
-   * @param quotes must not be {@literal null}.
-   * @return the saved entities will never be {@literal null}.
-   * @throws IllegalArgumentException in case the given entity is {@literal null}.
-   */
-  @Override
-  public <S extends Quote> Iterable<S> saveAll(Iterable<S> quotes) {
-    List<S> batch = new ArrayList<>();
-    for (Quote q : quotes) {
-      batch.add((S) save(q));
-    }
-    return batch;
-  }
-
-
-  /**
-   * update quote information
-   *
-   * @param quote
-   */
-  private int updateTicker(Quote quote) {
-    String updateSql = "UPDATE quote SET last_price=?, bid_price=?, bid_size=?, "
+  private int updateOne(Quote quote){
+    String updateSQL = "UPDATE quote SET last_price=?, bid_price=?, bid_size=?, "
         + "ask_price=?, ask_size=? WHERE ticker=?";
-    return jdbcTemplate.update(updateSql, makeUpdateValues(quote));
+    return getJdbcTemplate().update(updateSQL, makeUpdateValues(quote));
   }
 
-  /**
-   *
-   * @param quote
-   * @return
-   */
-  private Object[] makeUpdateValues(Quote quote) {
-    return new Object[]{quote.getLastPrice(), quote.getBidPrice(), quote.getBidSize(),
-        quote.getAskPrice(),
-        quote.getAskSize(), quote.getTicker()};
+  private Object[] makeUpdateValues(Quote quote){
+    List<Object> values = new ArrayList<>();
+    values.add(quote.getLastPrice());
+    values.add(quote.getBidPrice());
+    values.add(quote.getBidSize());
+    values.add(quote.getAskPrice());
+    values.add(quote.getAskSize());
+    values.add(quote.getTicker());
+    return values.toArray();
   }
 
-  /**
-   * Retrieves an entity by its id.
-   *
-   * @param ticker must not be {@literal null}.
-   * @return the entity with the given id or {@literal Optional#empty()} if none found
-   * @throws IllegalArgumentException if {@code id} is {@literal null}.
-   */
+  @Override
+  public <S extends Quote> List<S> saveAll(Iterable<S> quotes) {
+    List<S> quotesOut = new ArrayList<>();
+    for (Quote q : quotes) {
+      quotesOut.add((S) save(q));
+    }
+    return quotesOut;
+  }
+
   @Override
   public Optional<Quote> findById(String ticker) {
-    String selectSql = "SELECT * FROM" + TABLE_NAME + "WHERE ticker = '" + ticker + "'";
-    List<Quote> quotes = jdbcTemplate
-        .query(selectSql, BeanPropertyRowMapper.newInstance(Quote.class));
-    if (quotes.size() == 1) {
-      Quote quoteOut = quotes.get(0);
-      return Optional.ofNullable(quoteOut);
-    } else {
-      throw new DataAccessResourceFailureException("can not get the data");
+    Optional<Quote> quote = null;
+    String selectSql = "SELECT * FROM " + TABLE_NAME + " WHERE ticker=? for UPDATE";
+    try {
+      quote = Optional.ofNullable(
+          getJdbcTemplate().queryForObject(selectSql,
+              BeanPropertyRowMapper.newInstance(Quote.class), ticker)
+      );
+    } catch (EmptyResultDataAccessException e) {
+      logger.debug("Can't find trader id: " + ticker, e);
     }
+    if (quote == null) {
+      throw new ResourceNotFoundException("Resource not found");
+    }
+    return quote;
   }
 
-  /**
-   * Returns whether an entity with the given id exists.
-   *
-   * @param ticker must not be {@literal null}.
-   * @return {@literal true} if an entity with the given id exists, {@literal false} otherwise.
-   * @throws IllegalArgumentException if {@code id} is {@literal null}.
-   */
   @Override
   public boolean existsById(String ticker) {
-    String selectSql = "SELECT * FROM " + TABLE_NAME + " WHERE ticker = '" + ticker + "'";
-    List<Quote> quotes = jdbcTemplate
-        .query(selectSql, BeanPropertyRowMapper.newInstance(Quote.class));
-    if (quotes.size() == 1) {
-      Quote outQuote = quotes.get(0);
-      return true;
-    } else {
-      return false;
+    long count;
+    String countSql = "SELECT COUNT(*) FROM " + TABLE_NAME +
+        " WHERE ticker='" + ticker.toUpperCase() + "'";
+    try {
+      count = getJdbcTemplate().queryForObject(countSql, Long.class);
+    } catch (NullPointerException e){
+      count = 0;
     }
+    return count != 0;
   }
 
-  /**
-   * Returns all instances of the type.
-   *
-   * @return all entities
-   */
   @Override
-  public List<Quote> findAll() {
+  public List<Quote> findAll() throws DataAccessException {
     String selectSql = "SELECT * FROM " + TABLE_NAME;
-    List<Quote> quotes = jdbcTemplate
+    return getJdbcTemplate()
         .query(selectSql, BeanPropertyRowMapper.newInstance(Quote.class));
-    return quotes;
   }
 
-  /**
-   * Returns all instances of the type with the given IDs.
-   *
-   * @param strings
-   * @return
-   */
   @Override
-  public Iterable<Quote> findAllById(Iterable<String> strings) {
-    throw new UnsupportedOperationException("not implemented");
+  public Iterable<Quote> findAllById(Iterable<String> iterable) {
+    throw new UnsupportedOperationException("Not Implemented.");
   }
 
-  /**
-   * Returns the number of entities available.
-   *
-   * @return the number of entities
-   */
   @Override
   public long count() {
-    long count = 0;
-    String sql = "SELECT COUNT(*) FROM" + TABLE_NAME;
-    return jdbcTemplate.queryForObject(sql, Long.class);
+    long count;
+    String countSql = "SELECT COUNT(*) FROM " + TABLE_NAME;
+    try {
+      count = getJdbcTemplate().queryForObject(countSql, Long.class);
+    } catch (NullPointerException e){
+      count = 0;
+    }
+    return count;
   }
 
-  /**
-   * Deletes the entity with the given id.
-   *
-   * @param ticker must not be {@literal null}.
-   * @throws IllegalArgumentException in case the given {@code id} is {@literal null}
-   */
   @Override
   public void deleteById(String ticker) {
-    if (ticker == null) {
-      throw new IllegalArgumentException("not valid ticker");
-    } else {
-      String deletSql = "DELETE FROM" + TABLE_NAME + ID_COLUMN_NAME + "=?";
-      jdbcTemplate.update(deletSql, ticker);
-    }
-
+    String deleteSql = "DELETE FROM " + TABLE_NAME + " WHERE ticker=?";
+    getJdbcTemplate().update(deleteSql, ticker);
   }
 
-  /**
-   * Deletes a given entity.
-   *
-   * @param entity
-   * @throws IllegalArgumentException in case the given entity is {@literal null}.
-   */
   @Override
-  public void delete(Quote entity) {
-    throw new UnsupportedOperationException("not implemented");
+  public void delete(Quote quote) {
+    throw new UnsupportedOperationException("Not Implemented.");
   }
 
-  /**
-   * Deletes the given entities.
-   *
-   * @param entities
-   * @throws IllegalArgumentException in case the given {@link Iterable} is {@literal null}.
-   */
   @Override
-  public void deleteAll(Iterable<? extends Quote> entities) {
-    throw new UnsupportedOperationException("not implemented");
+  public void deleteAll(Iterable<? extends Quote> iterable) {
+    throw new UnsupportedOperationException("Not Implemented.");
   }
 
-  /**
-   * Deletes all entities managed by the repository.
-   */
   @Override
   public void deleteAll() {
-    String deleteSql = "DELETE FROM" + TABLE_NAME;
-    jdbcTemplate.update(deleteSql);
+    String deleteSql = "DELETE FROM " + TABLE_NAME;
+    getJdbcTemplate().update(deleteSql);
+  }
+
+  public JdbcTemplate getJdbcTemplate() {
+    return jdbcTemplate;
+  }
+
+  public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+  }
+
+  public SimpleJdbcInsert getSimpleJdbcInsert() {
+    return simpleJdbcInsert;
+  }
+
+  public void setSimpleJdbcInsert(SimpleJdbcInsert simpleJdbcInsert) {
+    this.simpleJdbcInsert = simpleJdbcInsert;
   }
 }
