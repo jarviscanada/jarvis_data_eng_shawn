@@ -36,7 +36,7 @@ using DAO pattern.
 delete posts on Twitter using Twitter Rest API. Implemented the application using Springboot. Wrote unit and
 integration tests for the applications using JUnit4 and Mockito libraries. 
                                      
-- **[SpringBoot App](./springboot)**: *[in-progress]*  
+- **[SpringBoot App](./springboot)**:   
   * Implemented a Java 8 and Springboot based REST API of a trading platform that uses IEX Cloud (a REST API that provides stock data)
 as a data source and PostgreSQL to persist data. Used a three-tier microservice architecture to implement it. Made
 use of Spring DAO to handle data access in PostgreSQL. Wrote unit and integration test using JUnit4 and Mockito.
