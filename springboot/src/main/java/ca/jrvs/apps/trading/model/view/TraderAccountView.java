@@ -3,7 +3,8 @@ package ca.jrvs.apps.trading.model.view;
 import ca.jrvs.apps.trading.model.domain.Account;
 import ca.jrvs.apps.trading.model.domain.Trader;
 
-public class TraderAccountView {
+public class TraderAccountView{
+
   private Trader trader;
   private Account account;
 

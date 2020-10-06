@@ -1,17 +1,17 @@
 package ca.jrvs.apps.trading.model.domain;
 
 public class MarketOrderDto {
-  private String ticker;
-  private Integer accountId;
-  private Integer size;
-  private String type;
 
-  public String getTicker() {
-    return ticker;
+  private Integer size;
+  private Integer accountId;
+  private String ticker;
+
+  public Integer getSize() {
+    return size;
   }
 
-  public void setTicker(String ticker) {
-    this.ticker = ticker;
+  public void setSize(Integer size) {
+    this.size = size;
   }
 
   public Integer getAccountId() {
@@ -22,24 +22,11 @@ public class MarketOrderDto {
     this.accountId = accountId;
   }
 
-  public Integer getSize() {
-    return size;
+  public String getTicker() {
+    return ticker;
   }
 
-  public void setSize(Integer size) {
-    this.size = size;
+  public void setTicker(String ticker) {
+    this.ticker = ticker;
   }
-
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type){
-    type = type.toLowerCase();
-    if(type !="buy"||type!="sell"){
-      throw new IllegalArgumentException("invalid order type:can only be buy or sell");
-    }
-    this.type=type;
-  }
-
 }

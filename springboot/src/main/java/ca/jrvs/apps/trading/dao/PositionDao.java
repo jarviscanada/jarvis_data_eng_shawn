@@ -1,27 +1,22 @@
 package ca.jrvs.apps.trading.dao;
 
 import ca.jrvs.apps.trading.model.domain.Position;
-import java.util.List;
-import java.util.Optional;
+import ca.jrvs.apps.trading.model.domain.Trader;
 import javax.sql.DataSource;
-import org.hibernate.boot.jaxb.hbm.internal.CacheAccessTypeConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class PositionDao extends JdbcCrudDao<Position> {
+public class PositionDao extends JdbcCrudDao<Position>{
 
   private static final Logger logger = LoggerFactory.getLogger(TraderDao.class);
 
   private final String TABLE_NAME = "position";
   private final String ID_COLUMN = "account_id";
-  private final String TICKER_COLUMN = "ticker";
 
   private JdbcTemplate jdbcTemplate;
   private SimpleJdbcInsert simpleJdbcInsert;
@@ -31,40 +26,6 @@ public class PositionDao extends JdbcCrudDao<Position> {
     setJdbcTemplate(new JdbcTemplate(dataSource));
     setSimpleJdbcInsert(new SimpleJdbcInsert(dataSource)
         .withTableName(TABLE_NAME).usingGeneratedKeyColumns(ID_COLUMN));
-  }
-
-  public static Logger getLogger() {
-    return logger;
-  }
-
-  public String getTABLE_NAME() {
-    return TABLE_NAME;
-  }
-
-  public String getID_COLUMN() {
-    return ID_COLUMN;
-  }
-
-  public String getTICKER_COLUMN() {
-    return TICKER_COLUMN;
-  }
-
-  public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-    this.jdbcTemplate = jdbcTemplate;
-  }
-
-  public void setSimpleJdbcInsert(SimpleJdbcInsert simpleJdbcInsert) {
-    this.simpleJdbcInsert = simpleJdbcInsert;
-  }
-
-  @Override
-  public JdbcTemplate getJdbcTemplate() {
-    return jdbcTemplate;
-  }
-
-  @Override
-  public SimpleJdbcInsert getSimpleJdbcInsert() {
-    return simpleJdbcInsert;
   }
 
   @Override
@@ -83,45 +44,68 @@ public class PositionDao extends JdbcCrudDao<Position> {
   }
 
   @Override
-  public int updateOne(Position entity) {
-    throw new UnsupportedOperationException("Update not supported");
+  public <S extends Position> S save(S entity) {
+    throw new UnsupportedOperationException("This is a read-Only view, you cannot modify it.");
   }
 
-  /**
-   *  finds position by account ID by trader id
-   * @param accountId
-   * @param ticker
-   * @return
-   */
-   public Optional<Position> getByAccountIdAndTicker(Integer accountId, String ticker){
-    Optional<Position> entity = Optional.empty();
-    String selectSql = "SELECT * FROM "+ getTABLE_NAME() + "WHERE"
-        +getIdColumnName() + "= " + accountId + " AND " + TICKER_COLUMN + "='" + ticker + "'";
-    try{
-      entity = Optional.ofNullable((Position)getJdbcTemplate().queryForObject(selectSql,
-          BeanPropertyRowMapper.newInstance(getEntityClass())));
-    }catch(IncorrectResultSizeDataAccessException e){
-      logger.debug("can not find position ", accountId +",ticker:"+ ticker,e);
-    }
-    return entity;
-   }
+  @Override
+  public <S extends Position> Iterable<S> saveAll(Iterable<S> entities) {
+    throw new UnsupportedOperationException("This is a read-Only view, you cannot modify it.");
+  }
 
-  /**
-   * finds position by account ID by trader id
-   * @param accountID
-   */
-  public List<Position> findPositionByAccountID(Integer accountID){
-    List<Position> entities = null;
-    String selectSql = "SELECT * FROM " + getTableName() + " WHERE " + getIdColumnName() + "= " + accountID ;
+  @Override
+  public void deleteById(Integer id) {
+    throw new UnsupportedOperationException("This is a read-Only view, you cannot modify it.");
+  }
 
-    try {
-      entities = getJdbcTemplate().
-          query(selectSql,
-              BeanPropertyRowMapper.newInstance(getEntityClass()));
-    } catch (IncorrectResultSizeDataAccessException e ){
-      logger.debug("Can't find Position by account ID", e);
-    }
-    return entities;
+  @Override
+  public void deleteAll(Iterable<? extends Position> entities) {
+    throw new UnsupportedOperationException("This is a read-Only view, you cannot modify it.");
+  }
+
+  @Override
+  public int updateOne(Position entity) {
+    throw new UnsupportedOperationException("This is a read-Only view, you cannot modify it.");
+  }
+
+  @Override
+  public void delete(Position entity) {
+    throw new UnsupportedOperationException("This is a read-Only view, you cannot modify it.");
+  }
+
+  @Override
+  public void deleteAll() {
+    throw new UnsupportedOperationException("This is a read-Only view, you cannot modify it.");
+  }
+
+  public static Logger getLogger() {
+    return logger;
+  }
+
+  public String getTABLE_NAME() {
+    return TABLE_NAME;
+  }
+
+  public String getID_COLUMN() {
+    return ID_COLUMN;
+  }
+
+  @Override
+  public JdbcTemplate getJdbcTemplate() {
+    return jdbcTemplate;
+  }
+
+  public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
+  }
+
+  @Override
+  public SimpleJdbcInsert getSimpleJdbcInsert() {
+    return simpleJdbcInsert;
+  }
+
+  public void setSimpleJdbcInsert(SimpleJdbcInsert simpleJdbcInsert) {
+    this.simpleJdbcInsert = simpleJdbcInsert;
   }
 
 }

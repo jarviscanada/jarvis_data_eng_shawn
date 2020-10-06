@@ -1,7 +1,5 @@
 package ca.jrvs.apps.trading.service;
 
-
-import ca.jrvs.apps.trading.Application;
 import ca.jrvs.apps.trading.dao.AccountDao;
 import ca.jrvs.apps.trading.dao.PositionDao;
 import ca.jrvs.apps.trading.dao.QuoteDao;
@@ -11,17 +9,18 @@ import ca.jrvs.apps.trading.model.domain.MarketOrderDto;
 import ca.jrvs.apps.trading.model.domain.Position;
 import ca.jrvs.apps.trading.model.domain.Quote;
 import ca.jrvs.apps.trading.model.domain.SecurityOrder;
-import java.util.Optional;
+import java.util.List;
+import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 public class OrderService {
-  private static final Logger logger = LoggerFactory.getLogger(Application.class);
+
+  private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
 
   private AccountDao accountDao;
   private SecurityOrderDao securityOrderDao;
@@ -29,87 +28,111 @@ public class OrderService {
   private PositionDao positionDao;
 
   @Autowired
-  public OrderService(AccountDao accountDao, SecurityOrderDao securityOrderDao,QuoteDao quoteDao, PositionDao positionDao){
-    this.accountDao=accountDao;
-    this.positionDao=positionDao;
-    this.securityOrderDao=securityOrderDao;
-    this.quoteDao=quoteDao;
+  public OrderService(AccountDao accountDao, SecurityOrderDao securityOrderDao,
+      QuoteDao quoteDao, PositionDao positionDao){
+    this.accountDao = accountDao;
+    this.securityOrderDao = securityOrderDao;
+    this.quoteDao = quoteDao;
+    this.positionDao = positionDao;
   }
 
   /**
    * Execute a market order
-   *
-   * validate the order (e.g. size and ticker)
-   * create a securityOrder ( for security_order table )
-   * handle buy and sell order
-   * nuy order : check account balance
-   * sell order : check position for the ticker/ symbol
-   * save and return
-   * @param orderDto market order
-   * @return SecurityOrder from security_order table
-   * @throws org.springframework.dao.DataAccessException if unable to get data from DAO
+   * - validate the order (size and ticker)
+   * - Create a securityOrder (for security_order table)
+   * - Handle buy or sell order
+   * - save and return security order
+   * @param orderDto
+   * @return SecurityOrder
+   * @throws org.springframework.dao.DataAccessException if unable to get data from dao
    * @throws IllegalArgumentException for invalid input
    */
-
   public SecurityOrder executeMarketOrder(MarketOrderDto orderDto){
-    orderDto.setTicker(orderDto.getTicker().toUpperCase());
-    checkTicker(orderDto.getTicker());
+    Integer securityOrderId;
+    String ticker = orderDto.getTicker().toUpperCase();
+    Integer accountId = orderDto.getAccountId();
 
-    Quote quote=quoteDao.findById(orderDto.getTicker()).get();
-    Account account = accountDao.findById(orderDto.getAccountId()).get();
-    SecurityOrder order = new SecurityOrder();
-    order.setAccountId(orderDto.getAccountId());
-    order.setStatus("CREATE");
-    order.setSize(orderDto.getSize());
-    order.setTicker(orderDto.getTicker());
+    Quote quote = quoteDao.findById(ticker).get();
+    Account account = accountDao.findById(accountId).get();
 
-    if(orderDto.getSize()>0){
-      order.setPrice(quote.getAskPrice());
-      handleBuyMarketOrder(order,account);
-    }else if(orderDto.getSize()<0){
-      order.setPrice((quote.getBidPrice()));
-      handleSellMarketOrder(orderDto,order,account);
-    }else{
-      throw new IllegalArgumentException("size is 0");
+    SecurityOrder securityOrder = new SecurityOrder();
+    securityOrder.setSize(orderDto.getSize());
+    securityOrder.setStatus("CREATED");
+    securityOrder.setTicker(orderDto.getTicker());
+    securityOrder.setAccountId(accountId);
+
+    if (orderDto.getSize() > 0){
+      if (orderDto.getSize() > quote.getAskSize()){
+        throw new IllegalArgumentException("Size for this order is too large");
+      }
+      securityOrder.setPrice(quote.getAskPrice());
+      handleBuyMarketOrder(orderDto, securityOrder, account);
+      quote.setAskSize(quote.getAskSize() - orderDto.getSize());
+    } else if (orderDto.getSize() < 0){
+      if (orderDto.getSize() > quote.getBidSize()){
+        throw new IllegalArgumentException("Size for this order is too large");
+      }
+      securityOrder.setPrice(quote.getBidPrice());
+      handleSellMarketOrder(orderDto, securityOrder, account);
+      quote.setBidSize(quote.getBidSize() - orderDto.getSize());
+    } else {
+      throw new IllegalArgumentException("Size of the order should not be 0.");
     }
-    securityOrderDao.save(order);
-    return order;
+    securityOrder.setStatus("FILLED");
+    return securityOrder;
   }
 
-  private void handleSellMarketOrder(MarketOrderDto orderDto, SecurityOrder order, Account account) {
-    Optional<Position> optionalPosition = positionDao.getByAccountIdAndTicker(orderDto.getAccountId(),orderDto.getTicker());
-
-    if(!optionalPosition.isPresent()){
-      throw new IllegalArgumentException("no position size is able to sell");
+  /**
+   * Execute a buy order
+   * - check account balance
+   * @param marketOrderDto
+   * @param securityOrder
+   * @param account
+   * @return securityOrder id generated
+   */
+  protected void handleBuyMarketOrder(MarketOrderDto marketOrderDto, SecurityOrder securityOrder,
+      Account account){
+    Double cost = securityOrder.getPrice() * securityOrder.getSize();
+    if (cost > account.getAmount()){
+      throw new IllegalArgumentException("Insufficient fund in the target account");
     }
-
-    Position position = optionalPosition.get();
-    if(position.getPosition()<orderDto.getSize()*-1){
-      order.setStatus("Cancelled");
-      order.setNotes("size is not enough to complete the order");
-    }else{
-      Double totoalPrice = order.getPrice()*-orderDto.getSize();
-      account.setAmount(account.getAmount()+totoalPrice);
-      accountDao.save(account);
-      order.setStatus("Filled");
-    }
+    account.setAmount(account.getAmount() - cost);
+    securityOrder.setStatus("FILLED");
+    accountDao.save(account);
+    securityOrder.setId(securityOrderDao.save(securityOrder).getId());
   }
 
-  private void handleBuyMarketOrder(SecurityOrder order, Account account) {
-    Double totalPrice =order.getPrice()*order.getSize();
-    if(account.getAmount()-totalPrice>=0){
-      account.setAmount(account.getAmount()-totalPrice);
-      accountDao.save(account);
-      order.setStatus("Filled");
-    }else{
-      order.setStatus("Cancelled");
-      order.setNotes("Insufficient balance in the account");
+  /**
+   * Execute a sell order
+   * - check position owned for the ticker
+   * @param marketOrderDto
+   * @param securityOrder
+   * @param account
+   * @return securityOrder id generated
+   */
+  protected void handleSellMarketOrder(MarketOrderDto marketOrderDto, SecurityOrder securityOrder,
+      Account account){
+    Position position = null;
+    List<Position> positions = positionDao.findRowByColumnId(account.getId(), "account_id");
+    if (positions == null){
+      throw new IllegalArgumentException("The order size is larger than the security position.");
     }
-  }
-
-  private void checkTicker(String ticker) {
-    if (ticker == null || !ticker.matches("[A-Za-z]+")) {
-      throw new IllegalArgumentException("Incorrect Ticker format");
+    boolean exist = false;
+    for (Position p : positions){
+      if (p.getTicker() == marketOrderDto.getTicker().toUpperCase()){
+        exist = true;
+        if (p.getPosition() < marketOrderDto.getSize()){
+          throw new IllegalArgumentException("The order size is larger than the security position.");
+        }
+      }
     }
+    if (!exist){
+      throw new IllegalArgumentException("You do not own position for security with ticker: " + marketOrderDto.getTicker());
+    }
+    Double sale = securityOrder.getPrice() * securityOrder.getSize() * -1; //since the size is negative
+    account.setAmount(account.getAmount() + sale);
+    securityOrder.setStatus("FILLED");
+    accountDao.save(account);
+    securityOrder.setId(securityOrderDao.save(securityOrder).getId());
   }
 }
