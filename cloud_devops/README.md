@@ -24,11 +24,8 @@ For the development environment, elastic beanstalk (EB) is used to simplify the 
 ![Diagram](./assets/DeploymentEnvironments.png)
 
 # Jenkins Server
-- Jenkins server configuration
-	- Jenkins
-	- NGINX rever proxy
-	- label all ports
-	- example: https://www.notion.so/jarviscanada/Jenkins-CI-CD-Pipeline-681ce6e8078f4099860e5e7b22d52816
+- To further simplify the deployment process, a tool called Jenkins is leveraged. It is an automated project build and deployment tool which can connect to GitHub and check for update constantly. The build and deployment process is specified by the JenkinsFile located in the project and it can be scheduled either periodically or in the presence of available updates. In this project, the develop branch and master branch are used for deployment in DEV env and PROD env described in the previous session. The details of the Jenkins server is illustrated in the following diagram.
+![Diagram](./assets/JenkinsServer.png)
 
 # Jenkins CI/CD pipeline
 Describe how you create a CI/CD pipeline using Jenkins.
