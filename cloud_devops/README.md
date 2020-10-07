@@ -28,8 +28,7 @@ For the development environment, elastic beanstalk (EB) is used to simplify the 
 ![Diagram](./assets/JenkinsServer.png)
 
 # Jenkins CI/CD pipeline
-Describe how you create a CI/CD pipeline using Jenkins.
-Describe pipeline steps using a diagram
+The CI/CD pipeline in Jenkins is built using JenkinsFile. It can be found under the root directory of the Springboot project. JenkinsFile is responsible for deploying code in develop branch into DEV env and deploying code in the master branch into PROD env. When the process starts, Jenkins pulls the new application versions from the GitHub repository and its branches. It uses Maven's package command to build a jar, which is then deployed by Elastic Beanstalk to the appropriate environment.
 
 # Improvements
-List at least three improvements
+1. Create a more strict security group only allowing SSH from the developer's IP address.
