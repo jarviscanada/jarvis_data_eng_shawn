@@ -10,8 +10,8 @@
 In this project, I plan to migrate the [SpringBoot](../springboot) project servers to the AWS cloud. It uses three-tier architecture where data tier stores data information, the application tier handles logic and the presentation tier is a graphical user interface. In this project, the application is deployed using amazon web service. EC2 instance is used to contain the application tier and RDS database is for the data tier. The client will then be able to access the trading platform with an endpoint. Moreover, the application is also deployed with load balancer and elastic beanstalk which make it able to handle large traffic. Jenkins CI/CD pipeline is also created to make the development/deployment process easier.
 
 # Application Cloud Architecture
-- ![Diagram](./assets/CloudApplicationArchitecture.png)
-  An environment configuration for our application was created in Elastic Beanstalk, including an Application Load Balancer and Auto Scaling group.
+![Diagram](./assets/CloudApplicationArchitecture.png)
+- An environment configuration for our application was created in Elastic Beanstalk, including an Application Load Balancer and Auto Scaling group.
   - The load balancer: It will take incoming HTTP requests and map them to a target group, keeping the workload even across instances. The ALB also performs health checks on the instances to avoid directing requests to a dead instance.
   - The Auto Scaling group: It handles the creation and removal of EC2 instances according to the demands of incoming traffic.
   This combination of tools makes our application both scalable and elastic.
