@@ -42,8 +42,12 @@ as a data source and PostgreSQL to persist data. Used a three-tier microservice 
 use of Spring DAO to handle data access in PostgreSQL. Wrote unit and integration test using JUnit4 and Mockito.
 Dockerized the application.  
                                       
-- **[Cloud & DevOps](./cloud_devops)**: *[Not started]*
-- **[Hadoop](./hadoop)**: *[Not started]*
+- **[Cloud & DevOps](./cloud_devops)**: 
+  * Provisioned the stock tracking simulation Springboot application using AWS services, such as EC2, ALB, Autoscaling, docker, etc. The application is scalable, fault-tolerant, and elastic. Built a CI/CD pipeline with AWS Elastic Beanstalk and Jenkins.
+
+- **[Hadoop](./hadoop)**: 
+  * Wrote a Zeppelin notebook using Hive SQL. Optimized Hive SQL's efficiency using partition and columnar file format. Compared time difference when doing the same query on tables with different optimization.
+
 - **[Spark/Scala](./spark)**:  *[Not started]*
 
 ## Professional Experiences
