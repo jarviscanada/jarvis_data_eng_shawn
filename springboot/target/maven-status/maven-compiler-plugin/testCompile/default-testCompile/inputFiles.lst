@@ -1,0 +1,11 @@
+/home/centos/dev/jarvis_data_eng_shawn/springboot/src/test/java/ca/jrvs/apps/trading/TestConfig.java
+/home/centos/dev/jarvis_data_eng_shawn/springboot/src/test/java/ca/jrvs/apps/trading/dao/AccountDaoIntTest.java
+/home/centos/dev/jarvis_data_eng_shawn/springboot/src/test/java/ca/jrvs/apps/trading/service/OrderServiceUnitTest.java
+/home/centos/dev/jarvis_data_eng_shawn/springboot/src/test/java/ca/jrvs/apps/trading/dao/PositionDaoIntTest.java
+/home/centos/dev/jarvis_data_eng_shawn/springboot/src/test/java/ca/jrvs/apps/trading/dao/TraderDaoIntTest.java
+/home/centos/dev/jarvis_data_eng_shawn/springboot/src/test/java/ca/jrvs/apps/trading/service/DashboardServiceUnitTest.java
+/home/centos/dev/jarvis_data_eng_shawn/springboot/src/test/java/ca/jrvs/apps/trading/dao/MarketDataDaoIntTest.java
+/home/centos/dev/jarvis_data_eng_shawn/springboot/src/test/java/ca/jrvs/apps/trading/service/QuoteServiceIntTest.java
+/home/centos/dev/jarvis_data_eng_shawn/springboot/src/test/java/ca/jrvs/apps/trading/dao/QuoteDaoIntTest.java
+/home/centos/dev/jarvis_data_eng_shawn/springboot/src/test/java/ca/jrvs/apps/trading/dao/SecurityOrderDaoIntTest.java
+/home/centos/dev/jarvis_data_eng_shawn/springboot/src/test/java/ca/jrvs/apps/trading/service/TraderAccountServiceIntTest.java
