@@ -8,5 +8,5 @@
   "key": "d61770c8-332292dab550ef271ea009e3",
   "transport": "tcp",
   "signature_scheme": "hmac-sha256",
-  "kernel_name": ""
+  "kernel_name": "python3"
 }
