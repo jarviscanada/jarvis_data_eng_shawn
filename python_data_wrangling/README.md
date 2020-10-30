@@ -7,7 +7,7 @@
 - Draw an architecture Diagram (please do not copy-paste any diagram from the project board)
 
 # Data Analytics and Wrangling
-- Create a link that points to your Jupyter notebook (use the relative path `/psql/retail_data_analytics_wrangling.ipynb`)
+- [[Notebook](https://github.com/jarviscanada/jarvis_data_eng_shawn/blob/feature/PythonData/python_data_wrangling/psql/retail_data_analytics_wrangling.ipynb)]
 - Discuss how would you use the data to help LGS to increase their revenue (e.g. design a new marketing strategy with data you provided)
 
 # Improvements
