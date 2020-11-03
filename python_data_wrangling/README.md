@@ -4,7 +4,7 @@
 
 # Project Architecture
 - London Gift Shop's rusn on the Microsoft Azure resource group, using Azure's Content Delivery Network to handle the front-end stack, which retrieves resource from Azure Blob. And using Azure's API Management and AKS Cluster(Kubernetes) to handle the back-end API stack. The back end stack contains microservice architecture, using a scalable AKS cluster for the  processing, and a single SQL server for OLTP data. The sample data we had is from this SQL server that to build the proof of conceptfor this project. After that, the retail.sql sample data  is stored in a PostgreSQL instance and interpreted through a Jupyter notebook.
-- ![architecture](assets/Project Diagram.png)
+- ![architecture](.assets/Project Diagram.png)
 
 # Data Analytics and Wrangling
 - [[Notebook](https://github.com/jarviscanada/jarvis_data_eng_shawn/blob/feature/PythonData/python_data_wrangling/psql/retail_data_analytics_wrangling.ipynb)]
