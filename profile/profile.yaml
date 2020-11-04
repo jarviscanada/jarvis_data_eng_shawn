@@ -55,7 +55,7 @@ jarvis_projects:
 
   - name: "Python Data Wrangling"
     git_url: "/python_data_wrangling"
-    description: "utilize the Python data wrangling technologies to understand customers behavior to develop sales and marketing specific techniques. The sample data we had is from this SQL server that to build the proof of concept for this project. After that, the retail.sql sample data is stored in a PostgreSQL instance and interpreted through a Jupyter notebook."
+    description: "Utilized the Python data wrangling technologies to understand customers behavior to develop sales and marketing specific techniques. The sample data we had is from this SQL server that to build the proof of concept for this project. After that, the retail.sql sample data is stored in a PostgreSQL instance and interpreted through a Jupyter notebook."
 
 highlighted_projects:
   - name: "Raspberry Pi auto water refill system with GCP utilization and ESP8266 chip"
