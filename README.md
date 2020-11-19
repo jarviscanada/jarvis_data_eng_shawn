@@ -47,6 +47,12 @@ Dockerized the application.
 
 - **[Hadoop](./hadoop)**: 
   * Wrote a Zeppelin notebook using Hive SQL. Optimized Hive SQL's efficiency using partition and columnar file format. Compared time difference when doing the same query on tables with different optimization.
+  
+- **[Python Data Wrangling](./python_data_wrangling)**:
+  * Utilized the Python data wrangling technologies to understand customers behavior
+to develop sales and marketing specific techniques. The sample data we had is from this SQL server that to build the
+proof of concept for this project. After that, the retail.sql sample data is stored in a PostgreSQL instance and interpreted
+through a Jupyter notebook.
 
 - **[Spark/Scala](./spark)**:  *[Not started]*
 
