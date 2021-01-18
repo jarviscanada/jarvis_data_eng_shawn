@@ -5,6 +5,7 @@
 
 
 # Zeppelin and Spark Implementation
+![zeppelin](.assets/Zeppelin&Spark_diagram.png)
 [[Notebook](https://github.com/jarviscanada/jarvis_data_eng_shawn/blob/feature/Spark/spark/notebook/Retail%20Data%20Analytics%20with%20PySpark.ipynb)]
 - Our team selected Azure Databricks to carry on the project. The dataset provided by LGS consisted of transaction data between 01/12/2009 and 09/12/2011. The data came in the form of CSV and was uploaded to Azure DBFS, a distributed file system available to our cluster, and read it into our cluster as a Dataframe. The Dataframe spanned all the workers in the cluster which allowed us to leverage more computational power for our work. Our analytical work focused on finding trends in their transactions over the given time frame and categorizing customers based on the recency and frequency of their visits. This information could be used to inform marketing campaigns towards certain customer segments, such as offering rewards programs to long-time customers.
 
