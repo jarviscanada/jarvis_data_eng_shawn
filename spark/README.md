@@ -10,7 +10,7 @@
 
 
 # Databricks and Spark Implementation
-![zeppelin](notebook/wdi_analytics.png)
+![zeppelin](notebook/databricks&spark.png)
 -  We evaluated Spark on a sample World Development Index dataset from the year 2016. The cluster and storage was set up on Google Cloud Platform, arranged as 1 master node and 2 workers configuration. The nodes were loaded with images that were preconfigured for Hadoop and Spark. Once the cluster was ready, we uploaded the dataset into the Hadoop Distributed File System and created an external Hive table from it. We used PySpark to load this table into a Dataframe which we performed our analytics on. Our analytics mostly consisted of finding historical GDP data on all listed countries.
 
 # Future Improvements
