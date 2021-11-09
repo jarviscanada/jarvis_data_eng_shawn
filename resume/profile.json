@@ -1,0 +1,112 @@
+{
+  "education": [
+    {
+      "awards_achievements": [
+        "Scholarship",
+        "GPA: 3.0/4.0"
+      ],
+      "degree": "Bachelor of Engineering, Electrical Engineering",
+      "department": "Electrical and Computer Engineering",
+      "duration": "2014-2019",
+      "school_name": "Carleton University"
+    }
+  ],
+  "github_repo_root_url": "https://github.com/jarviscanada/jarvis_data_eng_shawn",
+  "highlighted_projects": [
+    {
+      "description": "Joined ITA project at phase3, and assisted team by implementing Spark code with scala and helped testing the transform using integrating/unit testing in intellj. - Converting HiveSql code into Spark/Scala code to improve efficiency - Validating the data in both local and dev environment. Helped tracking and validating real life data in prod environment. - Creating masking function to help remove sensetive personal private infromation like SIN number for both feature data and historical data.",
+      "name": "ITA project From CIBC"
+    }
+  ],
+  "jarvis_projects": [
+    {
+      "description": "Developed a cluster monitoring bash agent that records hardware specifications and monitors resource usage (per minute) of all nodes in a cluster. Provisioned PostgreSQL database in nodes to store information of all nodes with the help of the bash agent installed in all of them. Utilized cron job to schedule the collection of resource usage information every minute. Coded SQL queries to generate reports for some business questions.",
+      "git_url": "/linux_sql",
+      "name": "Cluster Monitor"
+    },
+    {
+      "description": "– Designed a Java8 based application called JavaGrep that searches all files in a directory recursively for a user-provided regular expression. Implemented method that contain those expressions and sent into a new file. – Developed a JDBC-based application that allows users to perform basic CRUD operations on a PostgreSQL database using DAO pattern. – Designed a Java8 based application called TwitterCLI which helps users create, read, and delete posts on Twitter using Twitter Rest API. Implemented four versions of the TwitterCLI application - basic Java version, Spring Beans version, Spring Component Scan version, and Springboot version. Wrote Unit Tests and Integration Tests for the applications using JUnit4 and Mockito.",
+      "git_url": "/core_java",
+      "name": "Core Java Apps"
+    },
+    {
+      "description": "– Implemented Java8 and Springboot based REST API of a trading platform that uses IEX Cloud as a data source and PostgreSQL to persist data. Used a three-tier microservice architecture to implement it. Made use of Spring DAO to handle data access in PostgreSQL. Wrote unit and integration test using JUnit4 and Mockito. Dockerized the application.",
+      "git_url": "/springboot",
+      "name": "Springboot App"
+    },
+    {
+      "description": "",
+      "git_url": "/python_data_anlytics",
+      "name": "Python Data Analytics"
+    },
+    {
+      "description": "",
+      "git_url": "/hadoop",
+      "name": "Hadoop"
+    },
+    {
+      "description": "",
+      "git_url": "/spark",
+      "name": "Spark"
+    },
+    {
+      "description": "",
+      "git_url": "/cloud_devops",
+      "name": "Cloud/DevOps"
+    }
+  ],
+  "name": "Shawn(Xinyu) Wang",
+  "others": [
+    {
+      "bullets": [
+        "competitive Gaming"
+      ],
+      "title": "Activities/Hobbies"
+    }
+  ],
+  "professional_experience": [
+    {
+      "company": "CIBC",
+      "description": "Worked for ITA project, mainly forcusing on catching interval vialation among employees using real life data to catch financial fraud",
+      "duration": "Feb. 2021 - Nov. 2021",
+      "title": "Data Engineer"
+    },
+    {
+      "company": "Jarvis",
+      "description": "Acquired the technical skills required for a Junior data engineer. Adapted to an agile working environment and agile software development to ensure team cohesion, collaboration, and overall success. Worked on big data projects which involves the latest technologies, such as Java, Spring, Cloud platforms, Hadoop, Spark, Linux, Postgresql, etc.",
+      "duration": "2020 - 2021",
+      "title": "Software Developer"
+    },
+    {
+      "company": "Coop, Zhejiang Lida Modern Textile Company, China",
+      "description": "Designed and created a quality assurance system for a factory to enable accurate detection of defects, using real-time object detection through Open CV and deep learning based on Linux system. Utilized machine learning framework and TensorFlow to create computer vision and neural networks using camera.",
+      "duration": "2019 - 2019",
+      "title": "Embed Engineer"
+    }
+  ],
+  "skills": {
+    "competent": [
+      "Azure/GCP Cloud",
+      "C",
+      "Python",
+      "Java",
+      "Junit"
+    ],
+    "familiar": [
+      "Springboot",
+      "Mockito",
+      "Java Lambda Function",
+      "Stream APIs",
+      "AWS"
+    ],
+    "proficient": [
+      "Scala/Spark",
+      "Linux/Bash",
+      "RDBMS/SQL/HiveSql",
+      "Agile/Scrum",
+      "Git",
+      "Autosys"
+    ]
+  },
+  "summary": "Choose to move my career path more towards the software side. I am passionate about learning new stuff as well as applying new skills. Over the last 9 months, i have been working for Cibc in ITA project, which is spark/scala based ETL project with Azure. By the end of the period, I am starting to build up a wide knowledge base and learning how to quickly adapt to new concepts, which I believe makes me invulnerable in the Data Engineering industry. For leisure time, I like to play competitive video games with friends which can make me feel energize and improve my ability of instance reaction. Overall, I am excited to pursue a career as a software developer and further develop my skill sets."
+}
