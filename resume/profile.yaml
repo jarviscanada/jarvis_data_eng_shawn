@@ -38,7 +38,7 @@ skills:
 jarvis_projects:
   - name: "Cluster Monitor"
     git_url: "/linux_sql"
-    description:" Developed a cluster monitoring bash agent that records hardware specifications and monitors resource usage
+    description: "Developed a cluster monitoring bash agent that records hardware specifications and monitors resource usage
     (per minute) of all nodes in a cluster. Provisioned PostgreSQL database in nodes to store information of all
     nodes with the help of the bash agent installed in all of them. Utilized cron job to schedule the collection of
     resource usage information every minute. Coded SQL queries to generate reports for some business questions."
